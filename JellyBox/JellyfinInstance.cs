@@ -74,5 +74,24 @@ namespace JellyBox
 
             return authResult;
         }
+
+        /// <summary>
+        /// Gets user views for the logged in user. Fails if the user is not logged in
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IReadOnlyList<BaseItemDto>> GetUserViews()
+        {
+            return (await userViewsClient.GetUserViewsAsync(LoggedInUser.Id)).Items;
+        }
+
+        public async Task<IReadOnlyList<BaseItemDto>> GetView(string id)
+        {
+            return null;
+        }
+
+        public async Task<IReadOnlyList<BaseItemDto>> GetLatestMedia()
+        {
+            return (await userLibraryClient.GetLatestMediaAsync(LoggedInUser.Id));
+        }
     }
 }
