@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="JellyBox.ServerLoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:JellyBox"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Margin="20" HorizontalAlignment="Center" Spacing="10" Width="300">
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">JellyBox</TextBlock>
+            <TextBlock x:Name="ServerAddressText"></TextBlock>
+            <TextBox x:Name="UsernameBox" PlaceholderText="Username"></TextBox>
+            <PasswordBox x:Name="PasswordBox" PlaceholderText="Password"></PasswordBox>
+            <Button x:Name="LoginButton" Click="LoginButton_Click">Login</Button>
+            <TextBlock x:Name="ErrorTextblock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="Red"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
