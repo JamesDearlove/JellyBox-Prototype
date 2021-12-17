@@ -37,6 +37,8 @@ namespace JellyBox
             var userViews = await Core.JellyfinInstance.GetUserViews();
             ObservableCollection<BaseItemDto> userViewsObservable = new ObservableCollection<BaseItemDto>(userViews);
 
+            //var images = await Core.JellyfinInstance.GetGeneralImages();
+
             MyMediaGrid.ItemsSource = userViews;
         }
 
@@ -53,6 +55,17 @@ namespace JellyBox
         private void ReloadPageButton_Click(object sender, RoutedEventArgs e)
         {
             LoadPage();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Core.JellyfinInstance.ClearSettings();
+            Core.SettingManager.Username = null;
+            Core.SettingManager.Server = null;
+            Core.SettingManager.AccessToken = null;
+
+            Frame.Navigate(typeof(ServerAddressPage));
+            Frame.BackStack.Clear();
         }
     }
 }

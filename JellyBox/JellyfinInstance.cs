@@ -9,10 +9,6 @@ using Jellyfin.Sdk;
 
 namespace JellyBox
 {
-    public static class Core
-    {
-        public static JellyfinInstance JellyfinInstance = new JellyfinInstance();
-    }
 
     public class JellyfinInstance
     {
@@ -22,6 +18,8 @@ namespace JellyBox
         private IUserClient userClient;
         private IUserViewsClient userViewsClient;
         private IUserLibraryClient userLibraryClient;
+        private IImageClient imageClient;
+        private IImageByNameClient imageByNameClient;
 
         private HttpClient httpClient = new HttpClient();
 
@@ -55,6 +53,21 @@ namespace JellyBox
             userClient = new UserClient(sdkClientSettings, httpClient);
             userViewsClient = new UserViewsClient(sdkClientSettings, httpClient);
             userLibraryClient = new UserLibraryClient(sdkClientSettings, httpClient);
+            imageClient = new ImageClient(sdkClientSettings, httpClient);
+            imageByNameClient = new ImageByNameClient(sdkClientSettings, httpClient);
+        }
+
+        public async Task<SystemInfo> LoadSettings(string baseUrl, string accessToken)
+        {
+            sdkClientSettings.BaseUrl = baseUrl;
+            sdkClientSettings.AccessToken = accessToken;
+
+            var systemInfo = await systemClient.GetSystemInfoAsync();
+            var loggedInUser = await userClient.GetCurrentUserAsync();
+
+            LoggedInUser = loggedInUser;
+
+            return systemInfo;
         }
 
         public Task<PublicSystemInfo> ConnectServer(string serverUri)
@@ -75,6 +88,12 @@ namespace JellyBox
             return authResult;
         }
 
+        public void ClearSettings()
+        {
+            sdkClientSettings.BaseUrl = null;
+            sdkClientSettings.AccessToken = null;
+        }
+
         /// <summary>
         /// Gets user views for the logged in user. Fails if the user is not logged in
         /// </summary>
@@ -92,6 +111,11 @@ namespace JellyBox
         public async Task<IReadOnlyList<BaseItemDto>> GetLatestMedia()
         {
             return (await userLibraryClient.GetLatestMediaAsync(LoggedInUser.Id));
+        }
+
+        public Task<FileResponse> GetGeneralImages(Guid id)
+        {
+            return imageClient.GetItemImageAsync(id, ImageType.Primary);
         }
     }
 }

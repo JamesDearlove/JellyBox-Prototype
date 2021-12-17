@@ -12,7 +12,7 @@
         <StackPanel Margin="20" HorizontalAlignment="Center" Spacing="10" Width="300">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">JellyBox</TextBlock>
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}">Welcome, enter your server address to begin</TextBlock>
-            <TextBox x:Name="ServerAddressBox" PlaceholderText="Server Address"></TextBox>
+            <TextBox x:Name="ServerAddressBox" PlaceholderText="Server Address" KeyDown="ServerAddressBox_KeyDown"></TextBox>
             <StackPanel Orientation="Horizontal">
 
                 <Button x:Name="ConnectButton" Click="ConnectButton_Click">Connect</Button>

@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core.cs" />
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -129,6 +130,7 @@
     <Compile Include="ServerLoginPage.xaml.cs">
       <DependentUpon>ServerLoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingManager.cs" />
     <Compile Include="TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>

@@ -41,7 +41,7 @@
                                    StretchContentForSingleRow="False"
                                    OneRowModeEnabled="True"
                                    ItemHeight="150"
-                                   DesiredWidth="300"
+                                   DesiredWidth="275"
                                    SelectionMode="Single"
                                    IsItemClickEnabled="True"
                                    ItemTemplate="{StaticResource MediaTemplate}"/>
@@ -50,6 +50,7 @@
         <StackPanel Spacing="10" VerticalAlignment="Bottom">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Debug Options</TextBlock>
             <Button x:Name="ReloadPageButton" Click="ReloadPageButton_Click" >Reload Page</Button>
+            <Button x:Name="LogoutButton" Click="LogoutButton_Click" >Logout</Button>
             <Button x:Name="DebugMenuButton" Click="DebugMenuButton_Click" >Open Debug Menu</Button>
         </StackPanel>
     </Grid>

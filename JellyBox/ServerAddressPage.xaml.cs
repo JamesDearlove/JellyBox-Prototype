@@ -34,7 +34,20 @@ namespace JellyBox
             Frame.Navigate(typeof(TestPage));
         }
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectToServer();
+        }
+
+        private void ServerAddressBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                ConnectToServer();
+            }
+        }
+
+        private async void ConnectToServer()
         {
             // TODO: Refactor this with DataContext, a function for connecting state, and non UI blocking code 
             ConnectButton.IsEnabled = false;
@@ -58,6 +71,8 @@ namespace JellyBox
                 ConnectingRing.IsActive = false;
                 return;
             }
+
+            Core.SettingManager.Server = serverUri;
 
             ConnectButton.IsEnabled = true;
             ConnectingRing.IsActive = false;

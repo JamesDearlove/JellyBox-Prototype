@@ -39,17 +39,21 @@ namespace JellyBox
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Loading screen, disable background.
+            // TODO: Store login state (once logout is possible)
             AuthenticationResult authResult;
             try
             {
                 authResult = await Core.JellyfinInstance.AuthenticateUser(UsernameBox.Text, PasswordBox.Password);
-                ErrorTextblock.Text = $"Success: Hello {authResult.User.Name}!";
             }
             catch (Exception ex)
             {
                 ErrorTextblock.Text = ex.Message;
                 return;
             }
+
+            Core.SettingManager.Username = authResult.User.Name;
+            Core.SettingManager.AccessToken = authResult.AccessToken;
 
             Frame.Navigate(typeof(HomePage));
         }

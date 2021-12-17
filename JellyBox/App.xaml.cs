@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -29,6 +30,10 @@ namespace JellyBox
         public App()
         {
             this.InitializeComponent();
+
+            // Disable Xbox mouse cursor
+            this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
+
             this.Suspending += OnSuspending;
         }
 
@@ -37,8 +42,10 @@ namespace JellyBox
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -63,14 +70,49 @@ namespace JellyBox
             {
                 if (rootFrame.Content == null)
                 {
+
+                    // Check if auth is valid to determine whether to go to the home page or login page
+                    // TODO: This is a UI blocking call
+                    var authResult = await CheckAuthValid();
+
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(ServerAddressPage), e.Arguments);
+                    if (authResult)
+                    {
+                        rootFrame.Navigate(typeof(HomePage), e.Arguments);
+                    } else
+                    {
+                        rootFrame.Navigate(typeof(ServerAddressPage), e.Arguments);
+                    }
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private async Task<bool> CheckAuthValid()
+        {
+            var serverUrl = Core.SettingManager.Server;
+            var accessToken = Core.SettingManager.AccessToken;
+            var authValid = false;
+
+            if (serverUrl != null && accessToken != null)
+            {
+                try
+                {
+                    var result = await Core.JellyfinInstance.LoadSettings(serverUrl, accessToken);
+                    authValid = true;
+                }
+                catch (Jellyfin.Sdk.SystemException ex)
+                {
+                    // The settings arent actually valid or they are expired.
+                    // TODO: Make this user friendly.
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return authValid;
         }
 
         /// <summary>
