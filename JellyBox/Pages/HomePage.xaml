@@ -16,12 +16,12 @@
                 BorderThickness="1"
                 Padding="20"
                 >
-                <!--<Image
-                    Source="{Binding Thumbnail}"
+                <Image
+                    Source="{Binding Image.Stream}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>-->
-                <TextBlock VerticalAlignment="Bottom" Text="{Binding Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    VerticalAlignment="Center"/>
+                <TextBlock VerticalAlignment="Bottom" Text="{Binding Item.Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -37,7 +37,7 @@
                 <TextBlock x:Name="UsernameText" Grid.Column="1" HorizontalAlignment="Right" Style="{ThemeResource TitleTextBlockStyle}">User</TextBlock>
             </Grid>
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">My Media</TextBlock>
-            <controls:AdaptiveGridView Name="MyMediaGrid"
+            <controls:AdaptiveGridView x:Name="MyMediaGrid"
                                    StretchContentForSingleRow="False"
                                    OneRowModeEnabled="True"
                                    ItemHeight="150"

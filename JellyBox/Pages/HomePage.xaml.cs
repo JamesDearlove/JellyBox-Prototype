@@ -35,11 +35,30 @@ namespace JellyBox
             UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
             var userViews = await Core.JellyfinInstance.GetUserViews();
-            ObservableCollection<BaseItemDto> userViewsObservable = new ObservableCollection<BaseItemDto>(userViews);
+
+            ObservableCollection<DisplayItem> userViewsObservable = new ObservableCollection<DisplayItem>();
+
+            foreach (var userView in userViews)
+            {
+                var newItem = new DisplayItem();
+                newItem.Item = userView;
+
+                try
+                {
+
+
+                } catch (Exception)
+                {
+                    // No image
+                }
+
+                userViewsObservable.Add(newItem);
+            }
+            
 
             //var images = await Core.JellyfinInstance.GetGeneralImages();
 
-            MyMediaGrid.ItemsSource = userViews;
+            MyMediaGrid.ItemsSource = userViewsObservable;
         }
 
         private void Page_Loading(FrameworkElement sender, object args)

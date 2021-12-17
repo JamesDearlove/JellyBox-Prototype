@@ -113,7 +113,7 @@ namespace JellyBox
             return (await userLibraryClient.GetLatestMediaAsync(LoggedInUser.Id));
         }
 
-        public Task<FileResponse> GetGeneralImages(Guid id)
+        public Task<FileResponse> GetItemImage(Guid id)
         {
             return imageClient.GetItemImageAsync(id, ImageType.Primary);
         }

@@ -120,18 +120,18 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
-    <Compile Include="HomePage.xaml.cs">
+    <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="JellyfinInstance.cs" />
-    <Compile Include="ServerAddressPage.xaml.cs">
+    <Compile Include="Pages\ServerAddressPage.xaml.cs">
       <DependentUpon>ServerAddressPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServerLoginPage.xaml.cs">
+    <Compile Include="Pages\ServerLoginPage.xaml.cs">
       <DependentUpon>ServerLoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingManager.cs" />
-    <Compile Include="TestPage.xaml.cs">
+    <Compile Include="Pages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -156,19 +156,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="HomePage.xaml">
+    <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ServerAddressPage.xaml">
+    <Page Include="Pages\ServerAddressPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ServerLoginPage.xaml">
+    <Page Include="Pages\ServerLoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestPage.xaml">
+    <Page Include="Pages\TestPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
