@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -38,6 +39,7 @@ namespace JellyBox
 
             ObservableCollection<DisplayItem> userViewsObservable = new ObservableCollection<DisplayItem>();
 
+            // TODO: This code is a PITA and needs a complete rework
             foreach (var userView in userViews)
             {
                 var newItem = new DisplayItem();
@@ -45,16 +47,29 @@ namespace JellyBox
 
                 try
                 {
-
-
-                } catch (Exception)
+                    newItem.ImageItem = await Core.JellyfinInstance.GetItemImage(userView.Id);
+                }
+                catch (ImageException ex)
                 {
-                    // No image
+                    // No image found
+                }
+
+                if (newItem.ImageItem != null)
+                {
+                    var stream = newItem.ImageItem.Stream;
+                    var memStream = new MemoryStream();
+                    await stream.CopyToAsync(memStream);
+                    memStream.Position = 0; 
+
+                    BitmapImage bitmap = new BitmapImage();
+                    await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+
+                    newItem.Image = bitmap;
                 }
 
                 userViewsObservable.Add(newItem);
             }
-            
+
 
             //var images = await Core.JellyfinInstance.GetGeneralImages();
 

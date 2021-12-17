@@ -11,17 +11,22 @@
 
     <Page.Resources>
         <DataTemplate x:Key="MediaTemplate">
-            <Grid
-                BorderBrush="Black"
-                BorderThickness="1"
-                Padding="20"
-                >
-                <Image
-                    Source="{Binding Image.Stream}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid BorderBrush="Black">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Grid.Background>
+                    <Image
+                    Source="{Binding Image}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
-                <TextBlock VerticalAlignment="Bottom" Text="{Binding Item.Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                </Grid>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Item.Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -40,7 +45,7 @@
             <controls:AdaptiveGridView x:Name="MyMediaGrid"
                                    StretchContentForSingleRow="False"
                                    OneRowModeEnabled="True"
-                                   ItemHeight="150"
+                                   ItemHeight="200"
                                    DesiredWidth="275"
                                    SelectionMode="Single"
                                    IsItemClickEnabled="True"
