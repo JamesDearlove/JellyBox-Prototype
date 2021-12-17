@@ -35,11 +35,13 @@ namespace JellyBox
         {
             UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
+            // My Media panel
             var userViews = await Core.JellyfinInstance.GetUserViews();
 
             ObservableCollection<DisplayItem> userViewsObservable = new ObservableCollection<DisplayItem>();
 
             // TODO: This code is a PITA and needs a complete rework
+            // Suggestion: Caching thumbnails
             foreach (var userView in userViews)
             {
                 var newItem = new DisplayItem();
@@ -70,10 +72,45 @@ namespace JellyBox
                 userViewsObservable.Add(newItem);
             }
 
-
-            //var images = await Core.JellyfinInstance.GetGeneralImages();
-
             MyMediaGrid.ItemsSource = userViewsObservable;
+
+            // TODO: Rework to show Latest views instead.
+            var latestMedia = await Core.JellyfinInstance.GetLatestMedia();
+            ObservableCollection<DisplayItem> latestMediaObservabe = new ObservableCollection<DisplayItem>();
+
+            foreach (var item in latestMedia)
+            {
+                var newItem = new DisplayItem();
+
+                newItem.Item = item;
+
+                try
+                {
+                    newItem.ImageItem = await Core.JellyfinInstance.GetItemImage(item.Id, 200, 300);
+                }
+                catch (ImageException ex)
+                {
+                    // No image found
+                }
+
+                if (newItem.ImageItem != null)
+                {
+                    var stream = newItem.ImageItem.Stream;
+                    var memStream = new MemoryStream();
+                    await stream.CopyToAsync(memStream);
+                    memStream.Position = 0;
+
+                    BitmapImage bitmap = new BitmapImage();
+                    await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
+
+                    newItem.Image = bitmap;
+                }
+
+
+                latestMediaObservabe.Add(newItem);
+            }
+
+            LatestShowsGrid.ItemsSource = latestMediaObservabe;
         }
 
         private void Page_Loading(FrameworkElement sender, object args)

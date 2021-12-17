@@ -13,7 +13,7 @@
         <DataTemplate x:Key="MediaTemplate">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Grid BorderBrush="Black">
@@ -26,7 +26,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Item.Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Item.Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -50,13 +50,25 @@
                                    SelectionMode="Single"
                                    IsItemClickEnabled="True"
                                    ItemTemplate="{StaticResource MediaTemplate}"/>
+            
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Shows</TextBlock>
+            <controls:AdaptiveGridView x:Name="LatestShowsGrid"
+                                   StretchContentForSingleRow="False"
+                                   OneRowModeEnabled="True"
+                                   ItemHeight="300"
+                                   DesiredWidth="200"
+                                   SelectionMode="Single"
+                                   IsItemClickEnabled="True"
+                                   ItemTemplate="{StaticResource MediaTemplate}"/>
 
         </StackPanel>
         <StackPanel Spacing="10" VerticalAlignment="Bottom">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Debug Options</TextBlock>
-            <Button x:Name="ReloadPageButton" Click="ReloadPageButton_Click" >Reload Page</Button>
-            <Button x:Name="LogoutButton" Click="LogoutButton_Click" >Logout</Button>
-            <Button x:Name="DebugMenuButton" Click="DebugMenuButton_Click" >Open Debug Menu</Button>
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <Button x:Name="ReloadPageButton" Click="ReloadPageButton_Click" >Reload Page</Button>
+                <Button x:Name="LogoutButton" Click="LogoutButton_Click" >Logout</Button>
+                <Button x:Name="DebugMenuButton" Click="DebugMenuButton_Click" >Open Debug Menu</Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

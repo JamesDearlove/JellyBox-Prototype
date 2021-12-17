@@ -103,10 +103,10 @@ namespace JellyBox
             return (await userViewsClient.GetUserViewsAsync(LoggedInUser.Id)).Items;
         }
 
-        public async Task<IReadOnlyList<BaseItemDto>> GetView(string id)
-        {
-            return null;
-        }
+        //public async Task<IReadOnlyList<BaseItemDto>> GetView(string id)
+        //{
+        //    return null;
+        //}
 
         public async Task<IReadOnlyList<BaseItemDto>> GetLatestMedia()
         {
@@ -116,6 +116,11 @@ namespace JellyBox
         public Task<FileResponse> GetItemImage(Guid id)
         {
             return imageClient.GetItemImageAsync(id, ImageType.Primary);
+        }
+
+        public Task<FileResponse> GetItemImage(Guid id, int width, int height)
+        {
+            return imageClient.GetItemImageAsync(id, ImageType.Primary, width: width, height: height);
         }
     }
 }
