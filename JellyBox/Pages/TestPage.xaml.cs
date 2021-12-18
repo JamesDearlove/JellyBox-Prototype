@@ -19,6 +19,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using Windows.Media.Playback;
 using Windows.Media.Core;
+using Windows.Storage;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -54,18 +55,26 @@ namespace JellyBox
         {
             var stream = await Core.JellyfinInstance.GetVideoStream(Example);
 
-            var raStream = stream.Stream;
+            
             var memStream = new MemoryStream();
-            raStream.CopyTo(memStream);
-            memStream.Position = 0;
+            await stream.Stream.CopyToAsync(memStream);
+            memStream.Seek(0, SeekOrigin.Begin);
 
-            var item = await Core.JellyfinInstance.GetItem(Example);
+            var contentType = stream.Headers["Content-Type"].Single();
 
-            mediaPlayer.Source = MediaSource.CreateFromStream(memStream.AsRandomAccessStream(), "video/webm");
+             //Test:
+             //mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+
+            mediaPlayer.Source = MediaSource.CreateFromStream(memStream.AsRandomAccessStream(), contentType);
 
             MediaPlayerThing.SetMediaPlayer(mediaPlayer);
 
             mediaPlayer.Play();
+        }
+
+        private void FlushTest_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

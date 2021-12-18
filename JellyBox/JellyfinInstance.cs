@@ -131,7 +131,8 @@ namespace JellyBox
         {
             //return (await videosClient.GetVideoStreamAsync(id));
 
-            return await videosClient.HeadVideoStreamAsync(id);
+            return await videosClient.GetVideoStreamByContainerAsync(id, "ts");
+            
         }
 
         public async Task<BaseItemDto> GetItem(Guid id)

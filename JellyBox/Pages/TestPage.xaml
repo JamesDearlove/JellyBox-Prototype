@@ -13,6 +13,7 @@
             <StackPanel Padding="10" HorizontalAlignment="Left">
                 <Button x:Name="CloseButton" Margin="0,0,0,20" Click="CloseButton_Click">Close</Button>
                 <Button x:Name="StreamButton" Click="StreamButton_Click">Get Stream</Button>
+                <Button Click="FlushTest_Click">Flush</Button>
                 <MediaPlayerElement Height="400" Width="600" x:Name="MediaPlayerThing" AreTransportControlsEnabled="True"></MediaPlayerElement>
             </StackPanel>
         </StackPanel>
