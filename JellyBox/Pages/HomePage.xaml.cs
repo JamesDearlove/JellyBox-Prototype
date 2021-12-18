@@ -35,6 +35,9 @@ namespace JellyBox
         {
             UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
+            // TEMP DISABLE
+            return;
+
             // My Media panel
             var userViews = await Core.JellyfinInstance.GetUserViews();
 

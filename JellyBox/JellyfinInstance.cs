@@ -19,7 +19,8 @@ namespace JellyBox
         private IUserViewsClient userViewsClient;
         private IUserLibraryClient userLibraryClient;
         private IImageClient imageClient;
-        private IImageByNameClient imageByNameClient;
+        private IVideosClient videosClient;
+        private IItemsClient itemsClient;
 
         private HttpClient httpClient = new HttpClient();
 
@@ -54,7 +55,8 @@ namespace JellyBox
             userViewsClient = new UserViewsClient(sdkClientSettings, httpClient);
             userLibraryClient = new UserLibraryClient(sdkClientSettings, httpClient);
             imageClient = new ImageClient(sdkClientSettings, httpClient);
-            imageByNameClient = new ImageByNameClient(sdkClientSettings, httpClient);
+            videosClient = new VideosClient(sdkClientSettings, httpClient);
+            itemsClient = new ItemsClient(sdkClientSettings, httpClient);
         }
 
         public async Task<SystemInfo> LoadSettings(string baseUrl, string accessToken)
@@ -121,6 +123,20 @@ namespace JellyBox
         public Task<FileResponse> GetItemImage(Guid id, int width, int height)
         {
             return imageClient.GetItemImageAsync(id, ImageType.Primary, width: width, height: height);
+        }
+
+
+        // Video Streaming
+        public async Task<FileResponse> GetVideoStream(Guid id)
+        {
+            //return (await videosClient.GetVideoStreamAsync(id));
+
+            return await videosClient.HeadVideoStreamAsync(id);
+        }
+
+        public async Task<BaseItemDto> GetItem(Guid id)
+        {
+            return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
         }
     }
 }
