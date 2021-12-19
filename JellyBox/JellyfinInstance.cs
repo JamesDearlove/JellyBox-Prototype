@@ -13,14 +13,13 @@ namespace JellyBox
     public class JellyfinInstance
     {
         private SdkClientSettings sdkClientSettings = new SdkClientSettings();
-        
+
         private ISystemClient systemClient;
         private IUserClient userClient;
         private IUserViewsClient userViewsClient;
         private IUserLibraryClient userLibraryClient;
         private IImageClient imageClient;
         private IVideosClient videosClient;
-        private IItemsClient itemsClient;
 
         private HttpClient httpClient = new HttpClient();
 
@@ -56,7 +55,6 @@ namespace JellyBox
             userLibraryClient = new UserLibraryClient(sdkClientSettings, httpClient);
             imageClient = new ImageClient(sdkClientSettings, httpClient);
             videosClient = new VideosClient(sdkClientSettings, httpClient);
-            itemsClient = new ItemsClient(sdkClientSettings, httpClient);
         }
 
         public async Task<SystemInfo> LoadSettings(string baseUrl, string accessToken)
@@ -132,12 +130,18 @@ namespace JellyBox
             //return (await videosClient.GetVideoStreamAsync(id));
 
             return await videosClient.GetVideoStreamByContainerAsync(id, "ts");
-            
+
         }
 
         public async Task<BaseItemDto> GetItem(Guid id)
         {
             return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+        }
+
+        // Custom Rolled
+        public Uri GetVideoHLSUri(Guid id, string mediaSourceId)
+        {
+            return new Uri($"{sdkClientSettings.BaseUrl}/videos/{id}/master.m3u8?api_key={sdkClientSettings.AccessToken}&MediaSourceId={mediaSourceId}");
         }
     }
 }

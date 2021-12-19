@@ -51,22 +51,16 @@ namespace JellyBox
         Guid Example = new Guid("33b4c6d56cc07fcfce7568d5b4130b6d");
         MediaPlayer mediaPlayer = new MediaPlayer();
 
-        private async void StreamButton_Click(object sender, RoutedEventArgs e)
+        // xadia:8096/videos/33b4c6d5-6cc0-7fcf-ce75-68d5b4130b6d/hls1/main/0.ts?DeviceId=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NDsgcnY6OTUuMCkgR2Vja28vMjAxMDAxMDEgRmlyZWZveC85NS4wfDE2MzkxODk4MzQwNjE1&MediaSourceId=33b4c6d56cc07fcfce7568d5b4130b6d&VideoCodec=h264&AudioCodec=aac,mp3&AudioStreamIndex=1&VideoBitrate=139936000&AudioBitrate=64000&PlaySessionId=16e5fde0033c44878d68376570f67f41&api_key=77e9b46863794da09a52b66d06df8d09&SubtitleMethod=Encode&TranscodingMaxAudioChannels=6&RequireAvc=false&Tag=1f0e67a8e2660ff22fd7cc96be73fe07&SegmentContainer=ts&MinSegments=1&BreakOnNonKeyFrames=True&h264-profile=high,main,baseline,constrainedbaseline&h264-level=51&h264-deinterlace=true&TranscodeReasons=VideoCodecNotSupported,AudioCodecNotSupported
+
+        private void StreamButton_Click(object sender, RoutedEventArgs e)
         {
-            var stream = await Core.JellyfinInstance.GetVideoStream(Example);
+            var uri = Core.JellyfinInstance.GetVideoHLSUri(Example, "33b4c6d56cc07fcfce7568d5b4130b6d");
 
-            
-            var memStream = new MemoryStream();
-            await stream.Stream.CopyToAsync(memStream);
-            memStream.Seek(0, SeekOrigin.Begin);
+            //Test:
+            //mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
 
-            var contentType = stream.Headers["Content-Type"].Single();
-
-             //Test:
-             //mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
-
-            mediaPlayer.Source = MediaSource.CreateFromStream(memStream.AsRandomAccessStream(), contentType);
-
+            mediaPlayer.Source = MediaSource.CreateFromUri(uri);
             MediaPlayerThing.SetMediaPlayer(mediaPlayer);
 
             mediaPlayer.Play();
@@ -74,7 +68,8 @@ namespace JellyBox
 
         private void FlushTest_Click(object sender, RoutedEventArgs e)
         {
-            
+            //mediaPlayer.Pause();
+            //mediaPlayer.Dispose();
         }
     }
 }
