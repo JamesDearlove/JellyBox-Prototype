@@ -32,7 +32,6 @@ namespace JellyBox
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Replace with DataContext
             ServerName = (string)e.Parameter;
             ServerAddressText.Text = ServerName;
         }

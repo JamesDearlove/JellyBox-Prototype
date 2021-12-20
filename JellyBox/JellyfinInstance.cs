@@ -62,12 +62,22 @@ namespace JellyBox
             sdkClientSettings.BaseUrl = baseUrl;
             sdkClientSettings.AccessToken = accessToken;
 
-            var systemInfo = await systemClient.GetSystemInfoAsync();
-            var loggedInUser = await userClient.GetCurrentUserAsync();
+            try
+            {
+                var systemInfo = await systemClient.GetSystemInfoAsync();
+                var loggedInUser = await userClient.GetCurrentUserAsync();
 
-            LoggedInUser = loggedInUser;
+                LoggedInUser = loggedInUser;
 
-            return systemInfo;
+                return systemInfo;
+            }
+            catch (Exception ex)
+            {
+                // The login failed, revert the sdkClientSettings to be unset
+                sdkClientSettings.BaseUrl = null;
+                sdkClientSettings.AccessToken = null;
+                throw ex;
+            }
         }
 
         public Task<PublicSystemInfo> ConnectServer(string serverUri)
@@ -142,6 +152,16 @@ namespace JellyBox
         public Uri GetVideoHLSUri(Guid id, string mediaSourceId)
         {
             return new Uri($"{sdkClientSettings.BaseUrl}/videos/{id}/master.m3u8?api_key={sdkClientSettings.AccessToken}&MediaSourceId={mediaSourceId}");
+        }
+
+        public Uri GetImageUri(Guid itemId, ImageType imageType)
+        {
+            return new Uri($"{sdkClientSettings.BaseUrl}/items/{itemId}/Images/{imageType}?api_key={sdkClientSettings.AccessToken}");
+        }
+
+        public Uri GetImageUri(Guid itemId, ImageType imageType, int width, int height)
+        {
+            return new Uri($"{sdkClientSettings.BaseUrl}/items/{itemId}/Images/{imageType}?api_key={sdkClientSettings.AccessToken}&width={width}&height={height}");
         }
     }
 }

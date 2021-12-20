@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -34,6 +35,9 @@ namespace JellyBox
             // Disable Xbox mouse cursor
             this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
 
+            // Disable default scaling
+            // bool result = Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
+
             this.Suspending += OnSuspending;
         }
 
@@ -44,6 +48,7 @@ namespace JellyBox
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            // Draw UI to edge of screen (Xbox)
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -86,11 +91,17 @@ namespace JellyBox
                         rootFrame.Navigate(typeof(ServerAddressPage), e.Arguments);
                     }
                 }
+                // Bind back button
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
         }
 
+        /// <summary>
+        /// Check if the application stored authentication exists and is valid.
+        /// </summary>
+        /// <returns>true if it exists and is valid, false otherwise</returns>
         private async Task<bool> CheckAuthValid()
         {
             var serverUrl = Core.SettingManager.Server;
@@ -113,6 +124,21 @@ namespace JellyBox
             }
 
             return authValid;
+        }
+
+        /// <summary>
+        /// Invoked when the back button is pressed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+                e.Handled = true;
+            }
         }
 
         /// <summary>

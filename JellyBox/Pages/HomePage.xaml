@@ -32,37 +32,50 @@
     </Page.Resources>
 
     <Grid Margin="30">
-        <StackPanel Spacing="10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Style="{ThemeResource TitleTextBlockStyle}">JellyBox</TextBlock>
-                <TextBlock x:Name="UsernameText" Grid.Column="1" HorizontalAlignment="Right" Style="{ThemeResource TitleTextBlockStyle}">User</TextBlock>
-            </Grid>
-            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">My Media</TextBlock>
-            <controls:AdaptiveGridView x:Name="MyMediaGrid"
-                                   StretchContentForSingleRow="False"
-                                   OneRowModeEnabled="True"
-                                   ItemHeight="200"
-                                   DesiredWidth="275"
-                                   SelectionMode="Single"
-                                   IsItemClickEnabled="True"
-                                   ItemTemplate="{StaticResource MediaTemplate}"/>
-            
-            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Shows</TextBlock>
-            <controls:AdaptiveGridView x:Name="LatestShowsGrid"
-                                   StretchContentForSingleRow="False"
-                                   OneRowModeEnabled="True"
-                                   ItemHeight="300"
-                                   DesiredWidth="200"
-                                   SelectionMode="Single"
-                                   IsItemClickEnabled="True"
-                                   ItemTemplate="{StaticResource MediaTemplate}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
 
-        </StackPanel>
-        <StackPanel Spacing="10" VerticalAlignment="Bottom">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}">JellyBox</TextBlock>
+            <TextBlock x:Name="UsernameText" Grid.Column="1" HorizontalAlignment="Right" Style="{ThemeResource TitleTextBlockStyle}">User</TextBlock>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="10">
+                <!-- Item height being 210 for image (7:4) and 40 for text -->
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">My Media</TextBlock>
+                <controls:AdaptiveGridView x:Name="MyMediaGrid"
+                                           StretchContentForSingleRow="False"
+                                           OneRowModeEnabled="True"
+                                           ItemHeight="210"
+                                           DesiredWidth="300"
+                                           SelectionMode="Single"
+                                           IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource MediaTemplate}"
+                                           ItemsSource="{x:Bind UserViewsItems}"/>
+
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Shows</TextBlock>
+                <!-- Item height being 300 for image (3:2) and 40 for text -->
+                <controls:AdaptiveGridView x:Name="LatestShowsGrid"
+                                           StretchContentForSingleRow="False"
+                                           OneRowModeEnabled="True"
+                                           ItemHeight="340"
+                                           DesiredWidth="200"
+                                           SelectionMode="Single"
+                                           IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource MediaTemplate}"
+                                           ItemsSource="{x:Bind LatestShowsItems}"
+                                           ItemClick="LatestShowsGrid_ItemClick"/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2" Spacing="10" VerticalAlignment="Bottom">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Debug Options</TextBlock>
             <StackPanel Orientation="Horizontal" Spacing="10">
                 <Button x:Name="ReloadPageButton" Click="ReloadPageButton_Click" >Reload Page</Button>

@@ -1,0 +1,72 @@
+﻿<Page
+    x:Class="JellyBox.Pages.ShowPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:JellyBox.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loading="Page_Loading">
+
+    <Page.Resources>
+        <DataTemplate x:Key="EpisodeTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid BorderBrush="Black">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Grid.Background>
+                    <Image
+                    Source="{Binding Image}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Item.Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <!-- TODO: Fix with something more adaptive -->
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="12*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="BackdropImage" Grid.Row="0" Grid.ColumnSpan="2" Stretch="UniformToFill"/>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <!-- TODO: Change these to app wide colours -->
+                    <GradientStop Color="#20202000"/>
+                    <GradientStop Color="#202020" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        <Image x:Name="PrimaryImage" Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid Margin="40,0,40,40" Grid.Row="1" Grid.Column="1">
+            <StackPanel Spacing="10">
+                <TextBlock x:Name="ShowNameText" Style="{ThemeResource TitleTextBlockStyle}">Show Title</TextBlock>
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}">20XX - Present</TextBlock>
+                    <TextBlock x:Name="RatingText" Style="{ThemeResource SubtitleTextBlockStyle}">TV-Y7</TextBlock>
+                    <TextBlock x:Name="CommunityRatingText" Style="{ThemeResource SubtitleTextBlockStyle}">⭐ 8/10</TextBlock>
+                </StackPanel>
+                <TextBlock x:Name="OverviewText" TextWrapping="WrapWholeWords">
+                    This is an overview.
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
+            <Button x:Name="CloseButton" Click="CloseButton_Click">Close</Button>
+            <Button x:Name="ReloadButton" Click="ReloadButton_Click">Reload</Button>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using JellyBox.Pages;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,55 +32,33 @@ namespace JellyBox
             this.InitializeComponent();
         }
 
+        ObservableCollection<DisplayItem> UserViewsItems = new ObservableCollection<DisplayItem>();
+        ObservableCollection<DisplayItem> LatestShowsItems = new ObservableCollection<DisplayItem>();
+
         private async void LoadPage()
         {
             UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
-            // TEMP DISABLE
-            return;
+            // TODO: Incorporate an image cache.
 
             // My Media panel
             var userViews = await Core.JellyfinInstance.GetUserViews();
+            UserViewsItems.Clear();
 
-            ObservableCollection<DisplayItem> userViewsObservable = new ObservableCollection<DisplayItem>();
-
-            // TODO: This code is a PITA and needs a complete rework
-            // Suggestion: Caching thumbnails
             foreach (var userView in userViews)
             {
                 var newItem = new DisplayItem();
                 newItem.Item = userView;
 
-                try
-                {
-                    newItem.ImageItem = await Core.JellyfinInstance.GetItemImage(userView.Id);
-                }
-                catch (ImageException ex)
-                {
-                    // No image found
-                }
+                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary);
+                newItem.Image = new BitmapImage(uri);
 
-                if (newItem.ImageItem != null)
-                {
-                    var stream = newItem.ImageItem.Stream;
-                    var memStream = new MemoryStream();
-                    await stream.CopyToAsync(memStream);
-                    memStream.Position = 0; 
-
-                    BitmapImage bitmap = new BitmapImage();
-                    await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
-
-                    newItem.Image = bitmap;
-                }
-
-                userViewsObservable.Add(newItem);
+                UserViewsItems.Add(newItem);
             }
-
-            MyMediaGrid.ItemsSource = userViewsObservable;
 
             // TODO: Rework to show Latest views instead.
             var latestMedia = await Core.JellyfinInstance.GetLatestMedia();
-            ObservableCollection<DisplayItem> latestMediaObservabe = new ObservableCollection<DisplayItem>();
+            LatestShowsItems.Clear();
 
             foreach (var item in latestMedia)
             {
@@ -87,33 +66,11 @@ namespace JellyBox
 
                 newItem.Item = item;
 
-                try
-                {
-                    newItem.ImageItem = await Core.JellyfinInstance.GetItemImage(item.Id, 200, 300);
-                }
-                catch (ImageException ex)
-                {
-                    // No image found
-                }
+                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary);
+                newItem.Image = new BitmapImage(uri);
 
-                if (newItem.ImageItem != null)
-                {
-                    var stream = newItem.ImageItem.Stream;
-                    var memStream = new MemoryStream();
-                    await stream.CopyToAsync(memStream);
-                    memStream.Position = 0;
-
-                    BitmapImage bitmap = new BitmapImage();
-                    await bitmap.SetSourceAsync(memStream.AsRandomAccessStream());
-
-                    newItem.Image = bitmap;
-                }
-
-
-                latestMediaObservabe.Add(newItem);
+                LatestShowsItems.Add(newItem);
             }
-
-            LatestShowsGrid.ItemsSource = latestMediaObservabe;
         }
 
         private void Page_Loading(FrameworkElement sender, object args)
@@ -140,6 +97,16 @@ namespace JellyBox
 
             Frame.Navigate(typeof(ServerAddressPage));
             Frame.BackStack.Clear();
+        }
+
+        private void LatestShowsGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as DisplayItem;
+
+            if (item != null)
+            {
+                Frame.Navigate(typeof(ShowPage), item.Item.Id);
+            }
         }
     }
 }
