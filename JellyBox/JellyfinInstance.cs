@@ -20,6 +20,7 @@ namespace JellyBox
         private IUserLibraryClient userLibraryClient;
         private IImageClient imageClient;
         private IVideosClient videosClient;
+        private ITvShowsClient tvShowsClient;
 
         private HttpClient httpClient = new HttpClient();
 
@@ -49,12 +50,14 @@ namespace JellyBox
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
 
             // Configuring other clients
+            // TODO: Determine the memory impact of these.
             systemClient = new SystemClient(sdkClientSettings, httpClient);
             userClient = new UserClient(sdkClientSettings, httpClient);
             userViewsClient = new UserViewsClient(sdkClientSettings, httpClient);
             userLibraryClient = new UserLibraryClient(sdkClientSettings, httpClient);
             imageClient = new ImageClient(sdkClientSettings, httpClient);
             videosClient = new VideosClient(sdkClientSettings, httpClient);
+            tvShowsClient = new TvShowsClient(sdkClientSettings, httpClient);
         }
 
         public async Task<SystemInfo> LoadSettings(string baseUrl, string accessToken)
@@ -146,6 +149,16 @@ namespace JellyBox
         public async Task<BaseItemDto> GetItem(Guid id)
         {
             return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+        }
+
+        public Task<BaseItemDtoQueryResult> GetSeriesSeasons(Guid id)
+        {
+            return tvShowsClient.GetSeasonsAsync(id);
+        }
+
+        public Task<BaseItemDtoQueryResult> GetSeriesEpisodes(Guid seriesId, Guid seasonId)
+        {
+            return tvShowsClient.GetEpisodesAsync(seriesId, seasonId: seasonId);
         }
 
         // Custom Rolled

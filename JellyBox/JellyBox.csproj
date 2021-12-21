@@ -130,8 +130,8 @@
     <Compile Include="Pages\ServerLoginPage.xaml.cs">
       <DependentUpon>ServerLoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ShowPage.xaml.cs">
-      <DependentUpon>ShowPage.xaml</DependentUpon>
+    <Compile Include="Pages\MediaDetailsPage.xaml.cs">
+      <DependentUpon>MediaDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingManager.cs" />
     <Compile Include="Pages\TestPage.xaml.cs">
@@ -171,7 +171,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ShowPage.xaml">
+    <Page Include="Pages\MediaDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

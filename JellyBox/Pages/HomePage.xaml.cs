@@ -105,7 +105,7 @@ namespace JellyBox
 
             if (item != null)
             {
-                Frame.Navigate(typeof(ShowPage), item.Item.Id);
+                Frame.Navigate(typeof(MediaDetailsPage), item.Item.Id);
             }
         }
     }

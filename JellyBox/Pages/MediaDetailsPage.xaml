@@ -1,0 +1,136 @@
+﻿<Page
+    x:Class="JellyBox.Pages.MediaDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:JellyBox.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:jellyfin="using:Jellyfin.Sdk" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="EpisodeTemplate" x:DataType="jellyfin:BaseItemDto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid BorderBrush="Black">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Grid.Background>
+                    <!--<Image
+                    Source="{Binding Image}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>-->
+                </Grid>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PeopleTemplate" x:DataType="jellyfin:BaseItemPerson">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid BorderBrush="Black">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Grid.Background>
+                    <!--<Image
+                    Source="{Binding Image}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>-->
+                </Grid>
+                <StackPanel Grid.Row="1">
+
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Role}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <!-- TODO: Fix with something more adaptive -->
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="12*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="BackdropImage" Grid.Row="0" Grid.ColumnSpan="2" Stretch="UniformToFill"/>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <!-- TODO: Change these to app wide colours -->
+                    <GradientStop Color="#20202000"/>
+                    <GradientStop Color="#202020" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
+        <Image x:Name="PrimaryImage" Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid Margin="40,0,40,40" Grid.Row="1" Grid.Column="1">
+            <ScrollViewer>
+
+                <StackPanel Spacing="10">
+                    <TextBlock x:Name="ShowNameText" Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind MediaInfo.Name, Mode=OneWay}">Media Name</TextBlock>
+                    <StackPanel Orientation="Horizontal" Spacing="20">
+                        <!-- TODO: Not complete -->
+                        <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}">20XX - 20XX</TextBlock>
+                        <!-- TODO: Format as box -->
+                        <TextBlock x:Name="RatingText" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind MediaInfo.OfficialRating, Mode=OneWay}">RATING</TextBlock>
+                        <TextBlock x:Name="CommunityRatingText" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind MediaInfo.CommunityRating.ToString(), Mode=OneWay}">VIEWER RATING</TextBlock>
+                    </StackPanel>
+                    <TextBlock x:Name="OverviewText" TextWrapping="WrapWholeWords" Text="{x:Bind MediaInfo.Overview, Mode=OneWay}">
+                    OVERVIEW TEXT
+                    </TextBlock>
+                    
+                    <!-- TODO: This might be better abstracted in different types of pages? -->
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Seasons</TextBlock>
+                    <controls:AdaptiveGridView x:Name="SeasonsGrid"
+                                           StretchContentForSingleRow="False"
+                                           OneRowModeEnabled="True"
+                                           ItemHeight="340"
+                                           DesiredWidth="200"
+                                           SelectionMode="Single"
+                                           IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource EpisodeTemplate}"
+                                           ItemsSource="{x:Bind Seasons, Mode=OneWay}"
+                                               ItemClick="SeasonsGrid_ItemClick"/>
+                    
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Episodes</TextBlock>
+                    <controls:AdaptiveGridView x:Name="EpisodesGrid"
+                                           StretchContentForSingleRow="False"
+                                           OneRowModeEnabled="True"
+                                           ItemHeight="340"
+                                           DesiredWidth="200"
+                                           SelectionMode="Single"
+                                           IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource EpisodeTemplate}"
+                                           ItemsSource="{x:Bind Episodes, Mode=OneWay}"/>
+                    
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Cast &amp; Crew</TextBlock>
+                    <controls:AdaptiveGridView x:Name="CastCrewGrid"
+                                           StretchContentForSingleRow="False"
+                                           OneRowModeEnabled="True"
+                                           ItemHeight="340"
+                                           DesiredWidth="200"
+                                           SelectionMode="Single"
+                                           IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource PeopleTemplate}"
+                                           ItemsSource="{x:Bind MediaInfo.People, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
+            <Button x:Name="CloseButton" Click="CloseButton_Click">Close</Button>
+            <Button x:Name="ReloadButton" Click="ReloadButton_Click">Reload</Button>
+        </StackPanel>
+    </Grid>
+</Page>
