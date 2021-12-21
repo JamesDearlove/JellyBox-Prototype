@@ -106,14 +106,15 @@
                     
                     <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Episodes</TextBlock>
                     <controls:AdaptiveGridView x:Name="EpisodesGrid"
-                                           StretchContentForSingleRow="False"
-                                           OneRowModeEnabled="True"
-                                           ItemHeight="340"
-                                           DesiredWidth="200"
-                                           SelectionMode="Single"
-                                           IsItemClickEnabled="True"
-                                           ItemTemplate="{StaticResource EpisodeTemplate}"
-                                           ItemsSource="{x:Bind Episodes, Mode=OneWay}"/>
+                                               StretchContentForSingleRow="False"
+                                               OneRowModeEnabled="True"
+                                               ItemHeight="340"
+                                               DesiredWidth="200"
+                                               SelectionMode="Single"
+                                               IsItemClickEnabled="True"
+                                               ItemTemplate="{StaticResource EpisodeTemplate}"
+                                               ItemsSource="{x:Bind Episodes, Mode=OneWay}"
+                                               ItemClick="EpisodesGrid_ItemClick"/>
                     
                     <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Cast &amp; Crew</TextBlock>
                     <controls:AdaptiveGridView x:Name="CastCrewGrid"

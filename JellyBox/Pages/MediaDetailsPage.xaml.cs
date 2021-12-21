@@ -111,5 +111,15 @@ namespace JellyBox.Pages
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void EpisodesGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as BaseItemDto;
+
+            if (item != null)
+            {
+                Frame.Navigate(typeof(MediaPlayerPage), item.Id);
+            }
+        }
     }
 }
