@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JellyBox.Pages;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,55 +76,13 @@ namespace JellyBox
             {
                 if (rootFrame.Content == null)
                 {
-
-                    // Check if auth is valid to determine whether to go to the home page or login page
-                    // TODO: This is a UI blocking call
-                    var authResult = await CheckAuthValid();
-
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    if (authResult)
-                    {
-                        rootFrame.Navigate(typeof(HomePage), e.Arguments);
-                    } else
-                    {
-                        rootFrame.Navigate(typeof(ServerAddressPage), e.Arguments);
-                    }
+                    rootFrame.Navigate(typeof(LoadingPage));
                 }
                 // Bind back button
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-        }
-
-        /// <summary>
-        /// Check if the application stored authentication exists and is valid.
-        /// </summary>
-        /// <returns>true if it exists and is valid, false otherwise</returns>
-        private async Task<bool> CheckAuthValid()
-        {
-            var serverUrl = Core.SettingManager.Server;
-            var accessToken = Core.SettingManager.AccessToken;
-            var authValid = false;
-
-            if (serverUrl != null && accessToken != null)
-            {
-                try
-                {
-                    var result = await Core.JellyfinInstance.LoadSettings(serverUrl, accessToken);
-                    authValid = true;
-                }
-                catch (Jellyfin.Sdk.SystemException ex)
-                {
-                    // The settings arent actually valid or they are expired.
-                    // TODO: Make this user friendly.
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-            return authValid;
         }
 
         /// <summary>

@@ -5,11 +5,24 @@
     xmlns:local="using:JellyBox.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:localControls="using:JellyBox.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="BackButton_Click">Back</Button>
-        <MediaPlayerElement x:Name="MediaPlayerEl" AreTransportControlsEnabled="True"></MediaPlayerElement>
+        <MediaPlayerElement x:Name="MediaPlayerEl" AreTransportControlsEnabled="True" >
+            <MediaPlayerElement.TransportControls>
+                <localControls:CustomMediaTransportControls 
+                    IsFastForwardButtonVisible="True" 
+                    IsFastForwardEnabled="True"
+                    IsFastRewindButtonVisible="True"
+                    IsFastRewindEnabled="True"
+                    IsSkipBackwardButtonVisible="True" 
+                    IsSkipBackwardEnabled="True"
+                    IsSkipForwardButtonVisible="True"
+                    IsSkipForwardEnabled="True"
+                    BackRequested="MediaControls_BackRequested"/>
+            </MediaPlayerElement.TransportControls>
+        </MediaPlayerElement>
     </Grid>
 </Page>

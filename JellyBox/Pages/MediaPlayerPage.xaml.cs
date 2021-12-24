@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jellyfin.Sdk;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,27 +26,33 @@ namespace JellyBox.Pages
     public sealed partial class MediaPlayerPage : Page
     {
         Guid MediaId;
+        BaseItemDto MediaInfo;
         MediaPlayer MediaPlayer = new MediaPlayer();
-
         MediaSource MediaSource;
 
         public MediaPlayerPage()
         {
             this.InitializeComponent();
+            MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
         }
 
-        private void LoadMedia()
+        private async void LoadMedia()
         {
             var uri = Core.JellyfinInstance.GetVideoHLSUri(MediaId, MediaId.ToString("N"));
+            MediaInfo = await  Core.JellyfinInstance.GetItem(MediaId);
 
-            // Test:
-            // mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
+            // TODO: Info banner for what's playing
 
             MediaSource = MediaSource.CreateFromUri(uri);
             MediaPlayer.Source = MediaSource;
             MediaPlayerEl.SetMediaPlayer(MediaPlayer);
-
             MediaPlayer.Play();
+        }
+
+        private void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
+        {
+            // Handle returning to previous screen
+            //this.Frame.GoBack();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,13 +68,11 @@ namespace JellyBox.Pages
             base.OnNavigatedFrom(e);
 
             MediaPlayer.Pause();
-            //MediaPlayerEl.SetMediaPlayer(null);
             MediaPlayer.Source = null;
             MediaSource.Dispose();
             //MediaPlayer.Dispose();
         }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
+        private void MediaControls_BackRequested(object sender, EventArgs e)
         {
             this.Frame.GoBack();
         }
