@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using JellyBox.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -39,8 +40,6 @@ namespace JellyBox
         {
             UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
-            // TODO: Incorporate an image cache.
-
             // My Media panel
             var userViews = await Core.JellyfinInstance.GetUserViews();
             UserViewsItems.Clear();
@@ -51,7 +50,7 @@ namespace JellyBox
                 newItem.Item = userView;
 
                 var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary);
-                newItem.Image = new BitmapImage(uri);
+                newItem.Image = await ImageCache.Instance.GetFromCacheAsync(uri);
 
                 UserViewsItems.Add(newItem);
             }
@@ -67,7 +66,7 @@ namespace JellyBox
                 newItem.Item = item;
 
                 var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary);
-                newItem.Image = new BitmapImage(uri);
+                newItem.Image = await ImageCache.Instance.GetFromCacheAsync(uri);
 
                 LatestShowsItems.Add(newItem);
             }

@@ -1,4 +1,6 @@
-﻿using Jellyfin.Sdk;
+﻿using JellyBox.Models;
+using Jellyfin.Sdk;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,8 +32,9 @@ namespace JellyBox.Pages
         Guid MediaId;
         public BaseItemDto MediaInfo { get; set; }
         public ObservableCollection<BaseItemDto> Seasons { get; set; }
-        public ObservableCollection<BaseItemDto> Episodes { get; set; }
-        public BitmapImage Backdrop { get; set; }
+        public ObservableCollection<TvShowEpisode> Episodes { get; set; }
+        public BitmapImage BackdropImage { get; set; }
+        public BitmapImage PrimaryImage { get; set; }
 
         public MediaDetailsPage()
         {
@@ -39,13 +42,21 @@ namespace JellyBox.Pages
 
             MediaInfo = new BaseItemDto();
             Seasons = new ObservableCollection<BaseItemDto>();
-            Episodes = new ObservableCollection<BaseItemDto>();
+            Episodes = new ObservableCollection<TvShowEpisode>();
         }
 
         private async void LoadPage()
         {
             MediaInfo = await Core.JellyfinInstance.GetItem(MediaId);
             RaisePropertyChanged("MediaInfo");
+
+            var backgroundImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Backdrop);
+            BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
+            RaisePropertyChanged("BackdropImage");
+
+            var primaryImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Primary);
+            PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(primaryImage);
+            RaisePropertyChanged("PrimaryImage");
 
             if (MediaInfo.Type == "Series")
             {
@@ -68,18 +79,11 @@ namespace JellyBox.Pages
                 foreach (var episode in episodesQuery.Items)
                 {
                     var fullEpisode = await Core.JellyfinInstance.GetItem(episode.Id);
-                    Episodes.Add(fullEpisode);
+                    // TODO: Replace because terrible.
+                    var betterEpisode = new TvShowEpisode(fullEpisode);
+                    Episodes.Add(betterEpisode);
                 }
             }
-
-            // TODO: Caching required
-            var backgroundImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Backdrop);
-            //BackdropImage.Source = new BitmapImage(backgroundImage);
-            Backdrop = new BitmapImage(backgroundImage);
-            RaisePropertyChanged("Backdrop");
-
-            var primaryImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Primary);
-            PrimaryImage.Source = new BitmapImage(primaryImage);
         }
 
         private void SeasonsGrid_ItemClick(object sender, ItemClickEventArgs e)
@@ -118,7 +122,7 @@ namespace JellyBox.Pages
 
         private void EpisodesGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as BaseItemDto;
+            var item = e.ClickedItem as TvShowEpisode;
 
             if (item != null)
             {

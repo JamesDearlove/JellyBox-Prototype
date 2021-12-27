@@ -51,7 +51,6 @@
                 <StackPanel Grid.Column="1" Padding="10,0">
                     <TextBlock Text="{Binding Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                     <TextBlock Text="{Binding Overview}" TextWrapping="WrapWholeWords"/>
-                    <TextBlock Text="{Binding RunTimeTicks}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -83,7 +82,7 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="{x:Bind Backdrop, Mode=OneWay}" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="{x:Bind BackdropImage, Mode=OneWay}" Stretch="UniformToFill"/>
         </Grid.Background>
 
         <Grid Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -167,7 +166,7 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="12*"/>
             </Grid.ColumnDefinitions>
-            <Image x:Name="PrimaryImage" Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Image Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{x:Bind PrimaryImage, Mode=OneWay}"/>
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
                 <Button x:Name="CloseButton" Click="CloseButton_Click">Close</Button>
                 <Button x:Name="ReloadButton" Click="ReloadButton_Click">Reload</Button>

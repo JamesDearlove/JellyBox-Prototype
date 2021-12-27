@@ -61,7 +61,8 @@
                                            ItemTemplate="{StaticResource MediaTemplate}"
                                            ItemsSource="{x:Bind UserViewsItems}"/>
 
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Shows</TextBlock>
+                <!-- Split up into different categories -->
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Media</TextBlock>
                 <!-- Item height being 300 for image (3:2) and 40 for text -->
                 <controls:AdaptiveGridView x:Name="LatestShowsGrid"
                                            StretchContentForSingleRow="False"
