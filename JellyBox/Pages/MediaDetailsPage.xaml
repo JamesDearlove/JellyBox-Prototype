@@ -20,11 +20,11 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
-                    <!--<Image
-                    Source="{Binding Image}"
+                    <Image
+                    Source="{Binding PrimaryImage}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>-->
+                    VerticalAlignment="Center"/>
                 </Grid>
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </Grid>
@@ -38,15 +38,15 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
-                <!--<Image
-                    Source="{Binding Image}"
-                    Stretch="UniformToFill"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>-->
                 <Grid Grid.Column="0">
                     <Grid.Background>
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
+                    <Image
+                    Source="{Binding PrimaryImage}"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Padding="10,0">
                     <TextBlock Text="{Binding Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
@@ -65,14 +65,9 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
-                    <!--<Image
-                    Source="{Binding Image}"
-                    Stretch="UniformToFill"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>-->
+                    <Image Source="{Binding PrimaryImage}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 <StackPanel Grid.Row="1">
-
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Role}" Style="{ThemeResource BodyTextBlockStyle}"/>
                 </StackPanel>
@@ -85,46 +80,45 @@
             <ImageBrush ImageSource="{x:Bind BackdropImage, Mode=OneWay}" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <Grid Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Height="500" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         </Grid>
-        <Grid>
-            <Grid>
-                <ScrollViewer >
-                    <!-- TODO: Maybe we dont need this. -->
-                    <StackPanel>
-                        <Grid Height="400">
-                            <Grid.Background>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <!-- TODO: Change these to app wide colours -->
-                                    <GradientStop Color="#00202020"/>
-                                    <GradientStop Color="#202020" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Grid.Background>
-                        </Grid>
-                        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition Width="12*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Margin="40,0,40,40" Grid.Column="1" Spacing="10">
+        <Grid >
+            <ScrollViewer >
+                <!-- TODO: Maybe we dont need this. -->
+                <StackPanel>
+                    <Grid Height="400">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <!-- TODO: Change these to app wide colours -->
+                                <GradientStop Color="#00202020"/>
+                                <GradientStop Color="#202020" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="12*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="40,0,40,40" Grid.Column="1" Spacing="10">
 
-                                <TextBlock x:Name="ShowNameText" Style="{ThemeResource TitleTextBlockStyle}" d:Text="Media Name" Text="{x:Bind MediaInfo.Name, Mode=OneWay}"/>
-                                <StackPanel Orientation="Horizontal" Spacing="20">
-                                    <!-- TODO: Not complete -->
-                                    <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="YEAR - YEAR"/>
-                                    <!-- TODO: Format as box -->
-                                    <TextBlock x:Name="RatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="TV-Y7" Text="{x:Bind MediaInfo.OfficialRating, Mode=OneWay}"/>
-                                    <TextBlock x:Name="CommunityRatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="10"  Text="{x:Bind MediaInfo.CommunityRating.ToString(), Mode=OneWay}"/>
-                                </StackPanel>
-                                <TextBlock x:Name="OverviewText" TextWrapping="WrapWholeWords" d:Text="Overview text" Text="{x:Bind MediaInfo.Overview, Mode=OneWay}"/>
+                            <TextBlock x:Name="ShowNameText" Style="{ThemeResource TitleTextBlockStyle}" d:Text="Media Name" Text="{x:Bind MediaInfo.Name, Mode=OneWay}"/>
+                            <StackPanel Orientation="Horizontal" Spacing="20">
+                                <!-- TODO: Not complete -->
+                                <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="YEAR - YEAR"/>
+                                <!-- TODO: Format as box -->
+                                <TextBlock x:Name="RatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="TV-Y7" Text="{x:Bind MediaInfo.OfficialRating, Mode=OneWay}"/>
+                                <TextBlock x:Name="CommunityRatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="10"  Text="{x:Bind MediaInfo.CommunityRating.ToString(), Mode=OneWay}"/>
+                            </StackPanel>
+                            <TextBlock x:Name="OverviewText" TextWrapping="WrapWholeWords" d:Text="Overview text" Text="{x:Bind MediaInfo.Overview, Mode=OneWay}"/>
 
-                                <!-- TODO: This might be better abstracted in different types of pages? -->
-                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Seasons</TextBlock>
-                                <controls:AdaptiveGridView x:Name="SeasonsGrid"
+                            <!-- TODO: This might be better abstracted in different types of pages? -->
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Seasons</TextBlock>
+                            <controls:AdaptiveGridView x:Name="SeasonsGrid"
                                                            StretchContentForSingleRow="False"
                                                            OneRowModeEnabled="True"
-                                                           ItemHeight="340"
+                                                           ItemHeight="360"
                                                            DesiredWidth="200"
                                                            SelectionMode="Single"
                                                            IsItemClickEnabled="True"
@@ -132,16 +126,16 @@
                                                            ItemsSource="{x:Bind Seasons, Mode=OneWay}"
                                                            ItemClick="SeasonsGrid_ItemClick"/>
 
-                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Episodes</TextBlock>
-                                <ListView x:Name="EpisodesGrid"
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Episodes</TextBlock>
+                            <ListView x:Name="EpisodesGrid"
                                           SelectionMode="Single"
                                           IsItemClickEnabled="True"
                                           ItemTemplate="{StaticResource EpisodeTemplate}"
                                           ItemsSource="{x:Bind Episodes, Mode=OneWay}"
                                           ItemClick="EpisodesGrid_ItemClick"/>
 
-                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Cast &amp; Crew</TextBlock>
-                                <controls:AdaptiveGridView x:Name="CastCrewGrid"
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Cast &amp; Crew</TextBlock>
+                            <controls:AdaptiveGridView x:Name="CastCrewGrid"
                                                            StretchContentForSingleRow="False"
                                                            OneRowModeEnabled="True"
                                                            ItemHeight="340"
@@ -149,12 +143,11 @@
                                                            SelectionMode="Single"
                                                            IsItemClickEnabled="True"
                                                            ItemTemplate="{StaticResource PeopleTemplate}"
-                                                           ItemsSource="{x:Bind MediaInfo.People, Mode=OneWay}"/>
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
+                                                           ItemsSource="{x:Bind People, Mode=OneWay}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <Grid>

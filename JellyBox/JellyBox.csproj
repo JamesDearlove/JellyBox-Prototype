@@ -125,6 +125,7 @@
     <Compile Include="Models\Images.cs" />
     <Compile Include="Models\PersonItem.cs" />
     <Compile Include="Models\TvShowEpisode.cs" />
+    <Compile Include="Models\TvShowSeason.cs" />
     <Compile Include="Models\TvShowSeries.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>

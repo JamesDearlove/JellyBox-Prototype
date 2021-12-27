@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace JellyBox.Models
 {
+    // TODO: This should be observable
     public class BaseItem
     {
         public Guid Id { get; set; }
