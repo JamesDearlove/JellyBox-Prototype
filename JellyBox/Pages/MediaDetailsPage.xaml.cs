@@ -31,6 +31,7 @@ namespace JellyBox.Pages
         public BaseItemDto MediaInfo { get; set; }
         public ObservableCollection<BaseItemDto> Seasons { get; set; }
         public ObservableCollection<BaseItemDto> Episodes { get; set; }
+        public BitmapImage Backdrop { get; set; }
 
         public MediaDetailsPage()
         {
@@ -66,13 +67,16 @@ namespace JellyBox.Pages
                 Episodes.Clear();
                 foreach (var episode in episodesQuery.Items)
                 {
-                    Episodes.Add(episode);
+                    var fullEpisode = await Core.JellyfinInstance.GetItem(episode.Id);
+                    Episodes.Add(fullEpisode);
                 }
             }
 
             // TODO: Caching required
             var backgroundImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Backdrop);
-            BackdropImage.Source = new BitmapImage(backgroundImage);
+            //BackdropImage.Source = new BitmapImage(backgroundImage);
+            Backdrop = new BitmapImage(backgroundImage);
+            RaisePropertyChanged("Backdrop");
 
             var primaryImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Primary);
             PrimaryImage.Source = new BitmapImage(primaryImage);
