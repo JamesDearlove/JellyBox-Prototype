@@ -30,8 +30,33 @@ namespace JellyBox.Pages
     {
 
         Guid MediaId;
-        public BaseItemDto MediaInfo { get; set; }
+        public BaseMediaItem MediaInfo { get; set; }
         public ObservableCollection<TvShowSeason> Seasons { get; set; }
+
+        public Visibility SeasonsVisible
+        {
+            get
+            {
+                return Seasons.Count != 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility EpisodesVisible
+        {
+            get
+            {
+                return Episodes.Count != 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public Visibility PeopleVisible
+        {
+            get
+            {
+                return People.Count != 0 ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public ObservableCollection<TvShowEpisode> Episodes { get; set; }
         public ObservableCollection<PersonItem> People { get; set; }
         public BitmapImage BackdropImage { get; set; }
@@ -41,7 +66,7 @@ namespace JellyBox.Pages
         {
             this.InitializeComponent();
 
-            MediaInfo = new BaseItemDto();
+            MediaInfo = new Models.BaseMediaItem();
             Seasons = new ObservableCollection<TvShowSeason>();
             Episodes = new ObservableCollection<TvShowEpisode>();
             People = new ObservableCollection<PersonItem>();
@@ -49,14 +74,14 @@ namespace JellyBox.Pages
 
         private async void LoadPage()
         {
-            MediaInfo = await Core.JellyfinInstance.GetItem(MediaId);
+            MediaInfo = await Core.JellyfinInstance.GetUserLibraryDisplayMediaItem(MediaId);
             RaisePropertyChanged("MediaInfo");
 
             var backgroundImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Backdrop);
             BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
-            if (BackdropImage == null && MediaInfo.ParentId != null)
+            if (BackdropImage == null && MediaInfo.ApiItem.ParentId != null)
             {
-                var guid = (Guid)MediaInfo.ParentId;
+                var guid = (Guid)MediaInfo.ApiItem.ParentId;
                 backgroundImage = Core.JellyfinInstance.GetImageUri(guid, ImageType.Backdrop);
                 BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
             }
@@ -66,7 +91,7 @@ namespace JellyBox.Pages
             PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(primaryImage);
             RaisePropertyChanged("PrimaryImage");
 
-            if (MediaInfo.Type == "Series")
+            if (MediaInfo is TvShowSeries)
             {
                 var seasonsQuery = await Core.JellyfinInstance.GetSeriesSeasons(MediaId);
 
@@ -83,10 +108,10 @@ namespace JellyBox.Pages
                 }
             }
 
-            if (MediaInfo.Type == "Season")
+            if (MediaInfo is TvShowSeason)
             {
                 // TODO: This is horrible, this cast should be removed.
-                Guid seriesId = (Guid)MediaInfo.ParentId;
+                Guid seriesId = (Guid)MediaInfo.ApiItem.ParentId;
                 var episodesQuery = await Core.JellyfinInstance.GetSeriesEpisodes(seriesId, MediaId);
 
                 Episodes.Clear();
@@ -104,7 +129,7 @@ namespace JellyBox.Pages
                 }
             }
 
-            foreach (var person in MediaInfo.People)
+            foreach (var person in MediaInfo.ApiItem.People)
             {
                 var betterPerson = new PersonItem(person);
                 var imageQuery = Core.JellyfinInstance.GetImageUri(betterPerson.Id, ImageType.Primary);
@@ -128,7 +153,7 @@ namespace JellyBox.Pages
             MediaId = (Guid)e.Parameter;
             LoadPage();
         }
-        
+
         private void ReloadButton_Click(object sender, RoutedEventArgs e)
         {
             LoadPage();

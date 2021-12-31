@@ -7,18 +7,27 @@ using System.Threading.Tasks;
 
 namespace JellyBox.Models
 {
-    public class TvShowSeason : BaseItem
+    public class TvShowSeason : BaseMediaItem
     {
-        public string Overview { get; set; }
         public string SeasonName { get; set; }
         public int Season { get; set; }
         public Guid? Series { get; set; }
+        public string SeriesName { get; set; }
+
+        //public override string SubtitleText
+        //{
+        //    get
+        //    {
+        //        return SeriesName;
+        //    }
+        //}
+
         public TvShowSeason(BaseItemDto sdkBaseItem) : base(sdkBaseItem)
         {
-            Overview = sdkBaseItem.Overview;
             SeasonName = sdkBaseItem.SeasonName;
             //Released = sdkBaseItem.AirTime;
             Series = sdkBaseItem.SeriesId;
+            SeriesName = sdkBaseItem.SeriesName;
         }
     }
 }

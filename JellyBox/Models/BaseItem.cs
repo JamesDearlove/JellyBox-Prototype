@@ -17,6 +17,7 @@ namespace JellyBox.Models
         public BitmapImage PrimaryImage { get; set; }
         public BitmapImage BackdropImage { get; set; }
         public ImageBlurHashes ImageBlurHashes { get; set; }
+        public BaseItemDto ApiItem { get; set; }
 
         public BaseItem() { }
 
@@ -25,6 +26,7 @@ namespace JellyBox.Models
             Id = sdkBaseItem.Id;
             Name = sdkBaseItem.Name;
             Parent = sdkBaseItem.ParentId;
+            ApiItem = sdkBaseItem;
             
             // Blur Hashes
         }

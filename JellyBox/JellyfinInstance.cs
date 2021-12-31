@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using JellyBox.Models;
 using Jellyfin.Sdk;
 
 namespace JellyBox
@@ -149,6 +150,25 @@ namespace JellyBox
         public async Task<BaseItemDto> GetItem(Guid id)
         {
             return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+        }
+
+        public async Task<BaseMediaItem> GetUserLibraryDisplayMediaItem(Guid id)
+        {
+            var apiItem = await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+
+            switch (apiItem.Type)
+            {
+                case "Movie":
+                    return new Movie(apiItem);
+                case "Series":
+                    return new TvShowSeries(apiItem);
+                case "Season":
+                    return new TvShowSeason(apiItem);
+                case "Episode":
+                    return new TvShowEpisode(apiItem);
+                default:
+                    return new BaseMediaItem(apiItem);
+            }
         }
 
         public Task<BaseItemDtoQueryResult> GetSeriesSeasons(Guid id)

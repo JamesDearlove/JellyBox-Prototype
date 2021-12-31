@@ -122,7 +122,9 @@
     <Compile Include="Controls\CustomMediaTransportControls.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\BaseItem.cs" />
+    <Compile Include="Models\BaseMediaItem.cs" />
     <Compile Include="Models\Images.cs" />
+    <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\PersonItem.cs" />
     <Compile Include="Models\TvShowEpisode.cs" />
     <Compile Include="Models\TvShowSeason.cs" />
