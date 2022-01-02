@@ -33,8 +33,9 @@ namespace JellyBox
             this.InitializeComponent();
         }
 
-        ObservableCollection<DisplayItem> UserViewsItems = new ObservableCollection<DisplayItem>();
-        ObservableCollection<DisplayItem> LatestShowsItems = new ObservableCollection<DisplayItem>();
+        // TODO: Move to their respective items.
+        ObservableCollection<Models.BaseItem> UserViewsItems = new ObservableCollection<Models.BaseItem>();
+        ObservableCollection<Models.BaseItem> LatestShowsItems = new ObservableCollection<Models.BaseItem>();
 
         private async void LoadPage()
         {
@@ -46,12 +47,7 @@ namespace JellyBox
 
             foreach (var userView in userViews)
             {
-                var newItem = new DisplayItem();
-                newItem.Item = userView;
-
-                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary);
-                newItem.Image = await ImageCache.Instance.GetFromCacheAsync(uri);
-
+                var newItem = new Models.BaseItem(userView);
                 UserViewsItems.Add(newItem);
             }
 
@@ -61,14 +57,25 @@ namespace JellyBox
 
             foreach (var item in latestMedia)
             {
-                var newItem = new DisplayItem();
-
-                newItem.Item = item;
-
-                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary);
-                newItem.Image = await ImageCache.Instance.GetFromCacheAsync(uri);
-
+                var newItem = new Models.BaseItem(item);
                 LatestShowsItems.Add(newItem);
+            }
+
+            PopulateImages();
+        }
+
+        private async void PopulateImages()
+        {
+            foreach (var userView in UserViewsItems)
+            {
+                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary);
+                userView.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
+            }
+
+            foreach (var item in LatestShowsItems)
+            { 
+                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary);
+                item.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
             }
         }
 
@@ -100,11 +107,11 @@ namespace JellyBox
 
         private void LatestShowsGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as DisplayItem;
+            var item = e.ClickedItem as Models.BaseItem;
 
             if (item != null)
             {
-                Frame.Navigate(typeof(MediaDetailsPage), item.Item.Id);
+                Frame.Navigate(typeof(MediaDetailsPage), item.Id);
             }
         }
     }

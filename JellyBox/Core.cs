@@ -13,11 +13,4 @@ namespace JellyBox
         public static JellyfinInstance JellyfinInstance = new JellyfinInstance();
         public static SettingManager SettingManager = new SettingManager();
     }
-
-    public class DisplayItem
-    {
-        public BaseItemDto Item { get; set; }
-        public FileResponse ImageItem { get; set; }
-        public BitmapImage Image { get; set; }
-    }
 }

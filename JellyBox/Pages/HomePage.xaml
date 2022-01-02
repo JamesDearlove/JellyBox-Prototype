@@ -21,12 +21,12 @@
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
                     <Image
-                    Source="{Binding Image}"
+                    Source="{Binding PrimaryImage}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Item.Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
