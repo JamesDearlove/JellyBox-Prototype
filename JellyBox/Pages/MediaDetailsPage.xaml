@@ -114,8 +114,9 @@
                             <TextBlock x:Name="OverviewText" TextWrapping="WrapWholeWords" d:Text="Overview text" Text="{x:Bind MediaInfo.Overview, Mode=OneWay}"/>
 
                             <!-- TODO: This might be better abstracted in different types of pages? -->
-                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Seasons</TextBlock>
-                            <controls:AdaptiveGridView x:Name="SeasonsGrid"
+                            <StackPanel Spacing="10" Visibility="{x:Bind SeasonsVisible, Mode=OneWay}">
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" >Seasons</TextBlock>
+                                <controls:AdaptiveGridView x:Name="SeasonsGrid"
                                                            StretchContentForSingleRow="False"
                                                            OneRowModeEnabled="True"
                                                            ItemHeight="360"
@@ -124,18 +125,23 @@
                                                            IsItemClickEnabled="True"
                                                            ItemTemplate="{StaticResource VerticalTemplate}"
                                                            ItemsSource="{x:Bind Seasons, Mode=OneWay}"
-                                                           ItemClick="SeasonsGrid_ItemClick"/>
+                                                           ItemClick="SeasonsGrid_ItemClick" 
+                                                           Padding="0,0,0,0"/>
+                            </StackPanel>
 
-                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Episodes</TextBlock>
-                            <ListView x:Name="EpisodesGrid"
+                            <StackPanel Spacing="10" Visibility="{x:Bind EpisodesVisible, Mode=OneWay}">
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" >Episodes</TextBlock>
+                                <ListView x:Name="EpisodesGrid"
                                           SelectionMode="Single"
                                           IsItemClickEnabled="True"
                                           ItemTemplate="{StaticResource EpisodeTemplate}"
                                           ItemsSource="{x:Bind Episodes, Mode=OneWay}"
                                           ItemClick="EpisodesGrid_ItemClick"/>
+                            </StackPanel>
 
-                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Cast &amp; Crew</TextBlock>
-                            <controls:AdaptiveGridView x:Name="CastCrewGrid"
+                            <StackPanel Spacing="10" >
+                                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Visibility="{x:Bind PeopleVisible, Mode=OneWay}">Cast &amp; Crew</TextBlock>
+                                <controls:AdaptiveGridView x:Name="CastCrewGrid"
                                                            StretchContentForSingleRow="False"
                                                            OneRowModeEnabled="True"
                                                            ItemHeight="340"
@@ -144,6 +150,7 @@
                                                            IsItemClickEnabled="True"
                                                            ItemTemplate="{StaticResource PeopleTemplate}"
                                                            ItemsSource="{x:Bind People, Mode=OneWay}"/>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

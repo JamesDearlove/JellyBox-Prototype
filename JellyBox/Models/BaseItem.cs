@@ -1,7 +1,9 @@
 ﻿using Jellyfin.Sdk;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
@@ -9,13 +11,34 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace JellyBox.Models
 {
     // TODO: This should be observable
-    public class BaseItem
+    public class BaseItem : INotifyPropertyChanged
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid? Parent { get; set; }
-        public BitmapImage PrimaryImage { get; set; }
-        public BitmapImage BackdropImage { get; set; }
+
+        private BitmapImage _primaryImage;
+        public BitmapImage PrimaryImage
+        {
+            get => _primaryImage;
+            set
+            {   
+                _primaryImage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private BitmapImage _backdropImage;
+        public BitmapImage BackdropImage
+        {
+            get => _backdropImage;
+            set
+            {
+                _backdropImage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ImageBlurHashes ImageBlurHashes { get; set; }
         public BaseItemDto ApiItem { get; set; }
 
@@ -27,8 +50,15 @@ namespace JellyBox.Models
             Name = sdkBaseItem.Name;
             Parent = sdkBaseItem.ParentId;
             ApiItem = sdkBaseItem;
-            
-            // Blur Hashes
+
+            // TODO: Blur Hashes
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
