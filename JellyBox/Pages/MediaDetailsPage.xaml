@@ -167,10 +167,10 @@
                 <ColumnDefinition Width="12*"/>
             </Grid.ColumnDefinitions>
             <Image Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{x:Bind PrimaryImage, Mode=OneWay}"/>
-            <StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
+            <!--<StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
                 <Button x:Name="CloseButton" Click="CloseButton_Click">Close</Button>
                 <Button x:Name="ReloadButton" Click="ReloadButton_Click">Reload</Button>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
     </Grid>
 </Page>

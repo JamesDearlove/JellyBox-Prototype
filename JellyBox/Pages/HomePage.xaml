@@ -14,7 +14,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="40"/>
+                    <!--<RowDefinition Height="40"/>-->
                 </Grid.RowDefinitions>
                 <Grid BorderBrush="Black">
                     <Grid.Background>
@@ -26,12 +26,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
                 </Grid>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <!--<TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>-->
             </Grid>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Margin="30">
+    <Grid Margin="60,40">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -54,8 +54,8 @@
                 <controls:AdaptiveGridView x:Name="MyMediaGrid"
                                            StretchContentForSingleRow="False"
                                            OneRowModeEnabled="True"
-                                           ItemHeight="210"
-                                           DesiredWidth="300"
+                                           ItemHeight="240"
+                                           DesiredWidth="420"
                                            SelectionMode="Single"
                                            IsItemClickEnabled="True"
                                            ItemTemplate="{StaticResource MediaTemplate}"
@@ -67,8 +67,8 @@
                 <controls:AdaptiveGridView x:Name="LatestShowsGrid"
                                            StretchContentForSingleRow="False"
                                            OneRowModeEnabled="True"
-                                           ItemHeight="340"
-                                           DesiredWidth="200"
+                                           ItemHeight="400"
+                                           DesiredWidth="266"
                                            SelectionMode="Single"
                                            IsItemClickEnabled="True"
                                            ItemTemplate="{StaticResource MediaTemplate}"

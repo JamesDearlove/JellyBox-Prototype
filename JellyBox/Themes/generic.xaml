@@ -9,11 +9,10 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FlowDirection" Value="LeftToRight" />
         <!--<Setter Property="Margin" Value="{ThemeResource MediaTransportControlsMargin}" />-->
-        <!--<Setter Property="MaxWidth" Value="2000" />-->
 
         <Setter Property="MinWidth" Value="{ThemeResource MediaTransportControlsMinWidth}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-        <Setter Property="IsTextScaleFactorEnabled" Value="False" />
+        <Setter Property="IsTextScaleFactorEnabled" Value="True" />
         <!--<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />-->
         <Setter Property="Template">
             <Setter.Value>
@@ -142,7 +141,12 @@
                             </VisualStateGroup>
                             <!-- Focus states -->
                             <VisualStateGroup x:Name="MediaTransportControlMode">
-                                <VisualState x:Name="NormalMode" />
+                                <VisualState x:Name="NormalMode">
+                                    <VisualState.Setters>
+                                        <Setter Target="ControlPanelGrid.Margin" Value="0" />
+                                        <Setter Target="ControlPanelGrid.Padding" Value="60,20,60,40" />
+                                    </VisualState.Setters>
+                                </VisualState>
                                 <VisualState x:Name="CompactMode">
                                     <VisualState.Setters>
                                         <Setter Target="LeftSidePlayBorder.Visibility" Value="Visible" />
@@ -206,7 +210,7 @@
                             <Grid>
                                 <Grid x:Name="MediaInfoGrid" 
                                       VerticalAlignment="Top" 
-                                      Padding="{ThemeResource MediaTransportControlsMargin}" 
+                                      Padding="60,40,60,20"
                                       Background="{ThemeResource MediaTransportControlsPanelBackground}"
                                       >
                                     <Grid.ColumnDefinitions>
@@ -229,6 +233,7 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"-->
                                 <Grid x:Name="ControlPanelGrid"
                                   Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                                  
                                   VerticalAlignment="Bottom"
                                   >
                                     <!--<Grid.RenderTransform>
