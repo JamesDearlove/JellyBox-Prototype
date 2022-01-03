@@ -175,7 +175,7 @@ namespace JellyBox.Pages
 
             if (item != null)
             {
-                Frame.Navigate(typeof(MediaPlayerPage), item.Id);
+                Frame.Navigate(typeof(MediaPlayerPage), item);
             }
         }
     }

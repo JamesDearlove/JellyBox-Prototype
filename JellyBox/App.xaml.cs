@@ -37,7 +37,7 @@ namespace JellyBox
             this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
 
             // Disable default scaling
-             bool result = Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
+            bool result = Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
 
             this.Suspending += OnSuspending;
         }

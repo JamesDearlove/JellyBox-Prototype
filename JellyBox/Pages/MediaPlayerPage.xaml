@@ -13,6 +13,7 @@
         <MediaPlayerElement x:Name="MediaPlayerEl" AreTransportControlsEnabled="True" >
             <MediaPlayerElement.TransportControls>
                 <localControls:CustomMediaTransportControls 
+                    x:Name="CustomMediaControls"
                     IsFastForwardButtonVisible="True" 
                     IsFastForwardEnabled="True"
                     IsFastRewindButtonVisible="True"

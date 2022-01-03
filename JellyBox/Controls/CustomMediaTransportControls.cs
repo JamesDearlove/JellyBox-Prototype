@@ -12,6 +12,9 @@ namespace JellyBox.Controls
     {
         public event EventHandler<EventArgs> BackRequested;
 
+        public string MediaTitle { get; set; }
+        public string MediaSubtitle { get; set; }
+
         public CustomMediaTransportControls()
         {
             this.DefaultStyleKey = typeof(CustomMediaTransportControls);
@@ -21,6 +24,12 @@ namespace JellyBox.Controls
         {
             Button backButton = GetTemplateChild("BackButton") as Button;
             backButton.Click += BackButton_Click;
+
+            TextBlock titleTextBlock = GetTemplateChild("TitleValue") as TextBlock;
+            titleTextBlock.Text = MediaTitle;
+
+            TextBlock subtitleTextBlock = GetTemplateChild("SubtitleValue") as TextBlock;
+            subtitleTextBlock.Text = MediaSubtitle;
 
             base.OnApplyTemplate();
         }

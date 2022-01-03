@@ -52,6 +52,8 @@ namespace JellyBox.Models
             ApiItem = sdkBaseItem;
 
             // TODO: Blur Hashes
+            ImageBlurHashes = new ImageBlurHashes();
+            ImageBlurHashes.Primary = sdkBaseItem.ImageBlurHashes.Primary.Values.FirstOrDefault();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

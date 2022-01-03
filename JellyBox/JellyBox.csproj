@@ -208,6 +208,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Blurhash.System.Drawing.Common">
+      <Version>2.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Jellyfin.Sdk">
       <Version>2021.11.20</Version>
     </PackageReference>

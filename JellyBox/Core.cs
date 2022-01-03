@@ -12,5 +12,6 @@ namespace JellyBox
     {
         public static JellyfinInstance JellyfinInstance = new JellyfinInstance();
         public static SettingManager SettingManager = new SettingManager();
+        public static System.Drawing.Common.Blurhash.Decoder BlurhashDecoder = new System.Drawing.Common.Blurhash.Decoder();
     }
 }

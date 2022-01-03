@@ -106,7 +106,7 @@
                             <TextBlock x:Name="ShowNameText" Style="{ThemeResource TitleTextBlockStyle}" d:Text="Title" Text="{x:Bind MediaInfo.Name, Mode=OneWay}"/>
                             <StackPanel Orientation="Horizontal" Spacing="20">
                                 <!-- TODO: Not complete -->
-                                <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="Subtitle" Text="{x:Bind MediaInfo.SubtitleText, Mode=OneWay}"/>
+                                <TextBlock x:Name="YearsText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="Subtitle" Text="{x:Bind MediaInfo.DetailSubtitleText, Mode=OneWay}"/>
                                 <!-- TODO: Format as box -->
                                 <TextBlock x:Name="RatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="TV-Y7" Text="{x:Bind MediaInfo.ParentalRating, Mode=OneWay}"/>
                                 <TextBlock x:Name="CommunityRatingText" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="10"  Text="{x:Bind MediaInfo.CommunityRating.ToString(), Mode=OneWay}"/>

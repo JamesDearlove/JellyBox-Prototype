@@ -1,4 +1,5 @@
-﻿using Jellyfin.Sdk;
+﻿using JellyBox.Models;
+using Jellyfin.Sdk;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,8 +26,7 @@ namespace JellyBox.Pages
     /// </summary>
     public sealed partial class MediaPlayerPage : Page
     {
-        Guid MediaId;
-        BaseItemDto MediaInfo;
+        BaseMediaItem MediaInfo;
         MediaPlayer MediaPlayer = new MediaPlayer();
         MediaSource MediaSource;
 
@@ -36,12 +36,12 @@ namespace JellyBox.Pages
             MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
         }
 
-        private async void LoadMedia()
+        private void LoadMedia()
         {
-            var uri = Core.JellyfinInstance.GetVideoHLSUri(MediaId, MediaId.ToString("N"));
-            MediaInfo = await  Core.JellyfinInstance.GetItem(MediaId);
-
-            // TODO: Info banner for what's playing
+            var uri = Core.JellyfinInstance.GetVideoHLSUri(MediaInfo.Id, MediaInfo.Id.ToString("N"));
+                
+            CustomMediaControls.MediaTitle = MediaInfo.PlaybackTitle;
+            CustomMediaControls.MediaSubtitle = MediaInfo.PlaybackSubtitle;
 
             MediaSource = MediaSource.CreateFromUri(uri);
             MediaPlayer.Source = MediaSource;
@@ -59,7 +59,7 @@ namespace JellyBox.Pages
         {
             base.OnNavigatedTo(e);
 
-            MediaId = (Guid)e.Parameter;
+            MediaInfo = (BaseMediaItem)e.Parameter;
             LoadMedia();
         }
 

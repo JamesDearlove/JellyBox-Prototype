@@ -25,14 +25,12 @@ namespace JellyBox.Models
             }
         }
 
+        public virtual string PlaybackTitle => Name;
+        public virtual string PlaybackSubtitle => DisplayYear;
+
         // If a subclass has no defined subtitle, default to the DisplayYear property.
-        public virtual string SubtitleText
-        {
-            get
-            {
-                return DisplayYear;
-            }
-        }
+        public virtual string DetailSubtitleText => DisplayYear;
+
         public BaseMediaItem() { }
         public BaseMediaItem(BaseItemDto sdkBaseItem) : base(sdkBaseItem)
         {
