@@ -286,14 +286,15 @@
                                         </AppBarButton>
                                     </Border> 
                                     <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="1" Grid.Row="2">
-                                        <StackPanel Margin="0,3" Orientation="Horizontal" Style="{StaticResource CommandBarStyle}">
-                                            <!--<CommandBar.Resources>
+                                        <!-- TODO: Changing this CommandBar to a StackPanel crashes the app, but only when not debugging. -->
+                                        <CommandBar Margin="0,3" Style="{StaticResource CommandBarStyle}">
+                                            <CommandBar.Resources>
                                                 <Thickness x:Key="AppBarButtonInnerBorderMargin">5</Thickness>
                                                 <Thickness x:Key="AppBarButtonContentViewboxCollapsedMargin">0,12</Thickness>
                                                 <x:Double x:Key="AppBarThemeCompactHeight">40</x:Double>
                                                 <x:Double x:Key="AppBarMoreButtonColumnMinWidth">0</x:Double>
                                             </CommandBar.Resources>
-                                            <CommandBar.PrimaryCommands>-->
+                                            <CommandBar.PrimaryCommands>
                                                 <AppBarButton x:Name="VolumeMuteButton" Style="{StaticResource AppBarButtonStyle}" MediaTransportControlsHelper.DropoutOrder="19">
                                                     <AppBarButton.Flyout>
                                                         <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" ShouldConstrainToRootBounds="False" >
@@ -401,8 +402,8 @@
                                                         <SymbolIcon x:Name="FullWindowSymbol" Symbol="FullScreen" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                            <!--</CommandBar.PrimaryCommands>-->
-                                        </StackPanel>
+                                            </CommandBar.PrimaryCommands>
+                                        </CommandBar>
                                     </Border>
                                 </Grid>
                             </Grid>
