@@ -16,6 +16,11 @@
                 <Button Click="FlushTest_Click">Flush</Button>
                 <MediaPlayerElement Height="400" Width="600" x:Name="MediaPlayerThing" AreTransportControlsEnabled="True"></MediaPlayerElement>
             </StackPanel>
+            <StackPanel Padding="10" Spacing="10">
+                <TextBox x:Name="BlurHashTextBox" Width="400"/>
+                <Button x:Name="GenerateButton" Click="GenerateButton_Click">Generate Image</Button>
+                <Image x:Name="BlurHashImage" Width="400" Height="300" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

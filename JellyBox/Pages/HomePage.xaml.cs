@@ -48,6 +48,7 @@ namespace JellyBox
             foreach (var userView in userViews)
             {
                 var newItem = new Models.BaseItem(userView);
+                newItem.CreateBlurImages();
                 UserViewsItems.Add(newItem);
             }
 
@@ -58,6 +59,7 @@ namespace JellyBox
             foreach (var item in latestMedia)
             {
                 var newItem = new Models.BaseItem(item);
+                newItem.CreateBlurImages();
                 LatestShowsItems.Add(newItem);
             }
 

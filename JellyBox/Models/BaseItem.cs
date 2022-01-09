@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace JellyBox.Models
@@ -17,19 +18,19 @@ namespace JellyBox.Models
         public string Name { get; set; }
         public Guid? Parent { get; set; }
 
-        private BitmapImage _primaryImage;
-        public BitmapImage PrimaryImage
+        private ImageSource _primaryImage;
+        public ImageSource PrimaryImage
         {
             get => _primaryImage;
             set
-            {   
+            {
                 _primaryImage = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private BitmapImage _backdropImage;
-        public BitmapImage BackdropImage
+        private ImageSource _backdropImage;
+        public ImageSource BackdropImage
         {
             get => _backdropImage;
             set
@@ -51,9 +52,32 @@ namespace JellyBox.Models
             Parent = sdkBaseItem.ParentId;
             ApiItem = sdkBaseItem;
 
-            // TODO: Blur Hashes
+            // TODO: Improve this for being across all hashes
             ImageBlurHashes = new ImageBlurHashes();
-            ImageBlurHashes.Primary = sdkBaseItem.ImageBlurHashes.Primary.Values.FirstOrDefault();
+
+            if (sdkBaseItem.ImageBlurHashes.Primary != null)
+            {
+                ImageBlurHashes.Primary = sdkBaseItem.ImageBlurHashes.Primary.Values.FirstOrDefault();
+            }
+
+            if (sdkBaseItem.ImageBlurHashes.Backdrop != null)
+            {
+                ImageBlurHashes.Backdrop = sdkBaseItem.ImageBlurHashes.Backdrop.Values.FirstOrDefault();
+            }
+        }
+
+        // TODO: Update this to work across all hashes.
+        // TODO: Blur hash aspect ratio scaling.
+        public async void CreateBlurImages()
+        {
+            if (ImageBlurHashes.Primary != null)
+            {
+                PrimaryImage = await Helpers.GenerateBlurHash(ImageBlurHashes.Primary);
+            }
+            if (ImageBlurHashes.Backdrop != null)
+            {
+                BackdropImage = await Helpers.GenerateBlurHash(ImageBlurHashes.Backdrop);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

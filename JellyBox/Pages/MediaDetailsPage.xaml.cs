@@ -39,9 +39,6 @@ namespace JellyBox.Pages
         public bool EpisodesVisible { get; set; }
         public bool PeopleVisible { get; set; }
 
-        public BitmapImage BackdropImage { get; set; }
-        public BitmapImage PrimaryImage { get; set; }
-
         public MediaDetailsPage()
         {
             this.InitializeComponent();
@@ -56,6 +53,7 @@ namespace JellyBox.Pages
         {
             MediaInfo = await Core.JellyfinInstance.GetUserLibraryDisplayMediaItem(MediaId);
             RaisePropertyChanged("MediaInfo");
+            MediaInfo.CreateBlurImages();
 
             if (MediaInfo is TvShowSeries)
             {
@@ -68,6 +66,7 @@ namespace JellyBox.Pages
                 {
                     // TODO: Redo, move to JellyfinInstance
                     var betterSeason = new TvShowSeason(season);
+                    betterSeason.CreateBlurImages();
                     Seasons.Add(betterSeason);
                 }
             }
@@ -87,6 +86,7 @@ namespace JellyBox.Pages
                     var fullEpisode = await Core.JellyfinInstance.GetItem(episode.Id);
                     // TODO: Replace because terrible.
                     var betterEpisode = new TvShowEpisode(fullEpisode);
+                    betterEpisode.CreateBlurImages();
                     Episodes.Add(betterEpisode);
                 }
             }
@@ -104,23 +104,24 @@ namespace JellyBox.Pages
 
         private async void PopulateImages()
         {
+            // TODO: Move out of the bulk load, add in parallel task.
+            var primaryImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Primary);
+            MediaInfo.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(primaryImage);
+
             var backgroundImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Backdrop);
-            BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
-            if (BackdropImage == null && MediaInfo.ApiItem.ParentId != null)
+            MediaInfo.BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
+            if (MediaInfo.BackdropImage == null && MediaInfo.ApiItem.ParentId != null)
             {
                 var guid = (Guid)MediaInfo.ApiItem.ParentId;
                 backgroundImage = Core.JellyfinInstance.GetImageUri(guid, ImageType.Backdrop);
-                BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
+                MediaInfo.BackdropImage = await ImageCache.Instance.GetFromCacheAsync(backgroundImage);
             }
-            RaisePropertyChanged("BackdropImage");
-
-            var primaryImage = Core.JellyfinInstance.GetImageUri(MediaId, ImageType.Primary);
-            PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(primaryImage);
-            RaisePropertyChanged("PrimaryImage");
 
             foreach (var season in Seasons)
             {
                 var imageQuery = Core.JellyfinInstance.GetImageUri(season.Id, ImageType.Primary);
+                var t = await ImageCache.Instance.GetFileFromCacheAsync(imageQuery);
+
                 season.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(imageQuery);
             }
             foreach (var episode in Episodes)

@@ -14,12 +14,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using Jellyfin.Sdk;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
 using Windows.Media.Playback;
 using Windows.Media.Core;
-using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
+using Blurhash.UWP;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -68,6 +66,17 @@ namespace JellyBox
         {
             //mediaPlayer.Pause();
             //mediaPlayer.Dispose();
+        }
+
+        private async void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Blurhash.UWP
+            var image = Core.BlurhashDecoder.Decode(BlurHashTextBox.Text, 400, 300);
+
+            var softwareImage = new SoftwareBitmapSource();
+            await softwareImage.SetBitmapAsync(image);
+
+            BlurHashImage.Source = softwareImage;
         }
     }
 }

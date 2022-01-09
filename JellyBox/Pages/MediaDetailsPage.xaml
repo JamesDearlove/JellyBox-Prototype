@@ -77,7 +77,7 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="{x:Bind BackdropImage, Mode=OneWay}" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="{x:Bind MediaInfo.BackdropImage, Mode=OneWay}" Stretch="UniformToFill"/>
         </Grid.Background>
 
         <Grid Height="500" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -166,7 +166,12 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="12*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.RowSpan="2" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{x:Bind PrimaryImage, Mode=OneWay}"/>
+            <Image 
+                Grid.RowSpan="2" 
+                Margin="50,50,0,0" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Source="{x:Bind MediaInfo.PrimaryImage, Mode=OneWay}"/>
             <!--<StackPanel VerticalAlignment="Top" Orientation="Horizontal" Margin="10,10,10,0" Spacing="10">
                 <Button x:Name="CloseButton" Click="CloseButton_Click">Close</Button>
                 <Button x:Name="ReloadButton" Click="ReloadButton_Click">Reload</Button>
