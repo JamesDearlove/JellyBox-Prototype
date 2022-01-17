@@ -24,16 +24,16 @@
                     Source="{Binding PrimaryImage}"
                     Stretch="UniformToFill"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" />
                 </Grid>
                 <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="EpisodeTemplate" x:DataType="jellyfin:BaseItemDto">
-            <Grid Height="150" HorizontalAlignment="Stretch" BorderBrush="Black" Margin="0,5" Padding="0">
+            <Grid Height="200" HorizontalAlignment="Stretch" BorderBrush="Black" Margin="0,5" Padding="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="356"/>
                     <ColumnDefinition Width="6*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
@@ -43,10 +43,10 @@
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
                     <Image
-                    Source="{Binding PrimaryImage}"
-                    Stretch="UniformToFill"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
+                        Source="{Binding PrimaryImage}"
+                        Stretch="UniformToFill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
                 </Grid>
                 <StackPanel Grid.Column="1" Padding="10,0">
                     <TextBlock Text="{Binding Name}" Style="{ThemeResource SubtitleTextBlockStyle}"/>

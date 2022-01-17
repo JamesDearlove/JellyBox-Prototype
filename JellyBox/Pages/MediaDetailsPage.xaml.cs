@@ -119,14 +119,12 @@ namespace JellyBox.Pages
 
             foreach (var season in Seasons)
             {
-                var imageQuery = Core.JellyfinInstance.GetImageUri(season.Id, ImageType.Primary);
-                var t = await ImageCache.Instance.GetFileFromCacheAsync(imageQuery);
-
+                var imageQuery = Core.JellyfinInstance.GetImageUri(season.Id, ImageType.Primary, 300, 450);
                 season.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(imageQuery);
             }
             foreach (var episode in Episodes)
             {
-                var imageQuery = Core.JellyfinInstance.GetImageUri(episode.Id, ImageType.Primary);
+                var imageQuery = Core.JellyfinInstance.GetImageUri(episode.Id, ImageType.Primary, 356, 200);
                 episode.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(imageQuery);
             }
             foreach (var person in People)

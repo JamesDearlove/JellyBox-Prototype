@@ -76,7 +76,7 @@ namespace JellyBox
 
             foreach (var item in LatestShowsItems)
             { 
-                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary);
+                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary, 300, 450);
                 item.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
             }
         }
@@ -114,6 +114,16 @@ namespace JellyBox
             if (item != null)
             {
                 Frame.Navigate(typeof(MediaDetailsPage), item.Id);
+            }
+        }
+
+        private void MyMediaGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as Models.BaseItem;
+
+            if (item != null)
+            {
+                Frame.Navigate(typeof(LibraryGridPage), item);
             }
         }
     }

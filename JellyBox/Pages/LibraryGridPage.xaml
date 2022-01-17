@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="JellyBox.Pages.LibraryGridPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:JellyBox.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <Page.Resources>
+        <DataTemplate x:Key="MediaTemplate">
+            <Grid Height="375" Width="250">
+                <Image Source="{Binding PrimaryImage}" Stretch="Fill"></Image>
+                <!--<TextBlock Text="{Binding Name}" />-->
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Margin="60,40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <!--<RowDefinition Height="80"/>-->
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{x:Bind LibraryItem.Name}" Style="{ThemeResource TitleTextBlockStyle}"></TextBlock>
+
+        <GridView 
+            Grid.Row="1"
+            ItemTemplate="{StaticResource MediaTemplate}"
+            ItemsSource="{x:Bind LibraryItems}"
+            IsItemClickEnabled="True"
+            ItemClick="GridView_ItemClick"
+            >
+            
+        </GridView>
+    </Grid>
+</Page>

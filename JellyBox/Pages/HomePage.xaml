@@ -20,13 +20,14 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" FontSize="48" FontWeight="Bold"/>
                     <Image
                         Source="{Binding PrimaryImage}"
                         Stretch="UniformToFill"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
                 </Grid>
-                <!--<TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource BodyTextBlockStyle}"/>-->
+                
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -59,7 +60,7 @@
                                            SelectionMode="Single"
                                            IsItemClickEnabled="True"
                                            ItemTemplate="{StaticResource MediaTemplate}"
-                                           ItemsSource="{x:Bind UserViewsItems}"/>
+                                           ItemsSource="{x:Bind UserViewsItems}" ItemClick="MyMediaGrid_ItemClick"/>
 
                 <!-- Split up into different categories -->
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Media</TextBlock>

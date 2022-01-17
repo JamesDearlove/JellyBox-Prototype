@@ -22,6 +22,7 @@ namespace JellyBox
         private IImageClient imageClient;
         private IVideosClient videosClient;
         private ITvShowsClient tvShowsClient;
+        private IItemsClient itemsClient; 
 
         private HttpClient httpClient = new HttpClient();
 
@@ -51,6 +52,7 @@ namespace JellyBox
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.8));
 
             // Configuring other clients
+            // TODO: Remove the dependence on the C# SDK, its overly complicated for what we want here.
             // TODO: Determine the memory impact of these.
             systemClient = new SystemClient(sdkClientSettings, httpClient);
             userClient = new UserClient(sdkClientSettings, httpClient);
@@ -59,6 +61,7 @@ namespace JellyBox
             imageClient = new ImageClient(sdkClientSettings, httpClient);
             videosClient = new VideosClient(sdkClientSettings, httpClient);
             tvShowsClient = new TvShowsClient(sdkClientSettings, httpClient);
+            itemsClient = new ItemsClient(sdkClientSettings, httpClient);
         }
 
         public async Task<SystemInfo> LoadSettings(string baseUrl, string accessToken)
@@ -117,10 +120,10 @@ namespace JellyBox
             return (await userViewsClient.GetUserViewsAsync(LoggedInUser.Id)).Items;
         }
 
-        //public async Task<IReadOnlyList<BaseItemDto>> GetView(string id)
-        //{
-        //    return null;
-        //}
+        public async Task<IReadOnlyList<BaseItemDto>> GetItems(Guid id)
+        { 
+            return (await itemsClient.GetItemsAsync(LoggedInUser.Id, parentId:id)).Items;
+        }
 
         public async Task<IReadOnlyList<BaseItemDto>> GetLatestMedia()
         {
@@ -137,19 +140,10 @@ namespace JellyBox
             return imageClient.GetItemImageAsync(id, ImageType.Primary, width: width, height: height);
         }
 
-
-        // Video Streaming
-        public async Task<FileResponse> GetVideoStream(Guid id)
-        {
-            //return (await videosClient.GetVideoStreamAsync(id));
-
-            return await videosClient.GetVideoStreamByContainerAsync(id, "ts");
-
-        }
-
         public async Task<BaseItemDto> GetItem(Guid id)
         {
             return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+            
         }
 
         public async Task<BaseMediaItem> GetUserLibraryDisplayMediaItem(Guid id)
