@@ -27,11 +27,13 @@ namespace JellyBox.Pages
     {
 
         Models.BaseItem LibraryItem;
-        ObservableCollection<Models.BaseItem> LibraryItems = new ObservableCollection<Models.BaseItem>();
+        ObservableCollection<Models.BaseItem> LibraryItems { get; set; }
 
         public LibraryGridPage()
         {
             this.InitializeComponent();
+
+            LibraryItems = new ObservableCollection<Models.BaseItem>();
         }
 
         private async void LoadPage()

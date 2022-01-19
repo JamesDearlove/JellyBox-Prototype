@@ -16,6 +16,7 @@ namespace JellyBox.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string Initials { get => new String(Name.Split(" ").Select(x => x[0]).ToArray()); }
         public string Role { get; set; }
         public string Type { get; set; }
 

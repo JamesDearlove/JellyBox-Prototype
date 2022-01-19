@@ -65,6 +65,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
                     </Grid.Background>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Initials}" Style="{ThemeResource TitleTextBlockStyle}" FontSize="48" FontWeight="Bold"/>
                     <Image Source="{Binding PrimaryImage}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 <StackPanel Grid.Row="1">
