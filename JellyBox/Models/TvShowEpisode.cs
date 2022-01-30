@@ -20,9 +20,26 @@ namespace JellyBox.Models
         public Guid? Series { get; set; }
         public string SeriesName { get; set; }
 
+        public int? SeasonNumber { get; set; }
+        public int? EpisodeNumber { get; set; }
+
         public override string PlaybackTitle => SeriesName;
         // TODO: Get season and ep number in.
-        public override string PlaybackSubtitle => Name;
+        public override string PlaybackSubtitle
+        {
+            get
+            {
+                if (SeasonNumber != null && EpisodeNumber != null)
+                {
+                    return $"S{SeasonNumber}:E{EpisodeNumber} - {Name}";
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+
+        }
 
         public TvShowEpisode(BaseItemDto sdkBaseItem) : base(sdkBaseItem)
         {
@@ -31,6 +48,8 @@ namespace JellyBox.Models
             Season = sdkBaseItem.SeasonId;
             Series = sdkBaseItem.SeriesId;
             SeriesName = sdkBaseItem.SeriesName;
+            SeasonNumber = sdkBaseItem.ParentIndexNumber;
+            EpisodeNumber = sdkBaseItem.IndexNumber;
         }
     }
 }

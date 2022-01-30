@@ -34,8 +34,9 @@ namespace JellyBox
         }
 
         // TODO: Move to their respective items.
-        ObservableCollection<Models.BaseItem> UserViewsItems = new ObservableCollection<Models.BaseItem>();
-        ObservableCollection<Models.BaseItem> LatestShowsItems = new ObservableCollection<Models.BaseItem>();
+        ObservableCollection<Models.MediaLibrary> UserViewsItems = new ObservableCollection<Models.MediaLibrary>();
+        ObservableCollection<Models.BaseMediaItem> ContinueWatchingItems = new ObservableCollection<Models.BaseMediaItem>();
+        ObservableCollection<Models.BaseMediaItem> LatestShowsItems = new ObservableCollection<Models.BaseMediaItem>();
 
         private async void LoadPage()
         {
@@ -44,12 +45,18 @@ namespace JellyBox
             // My Media panel
             var userViews = await Core.JellyfinInstance.GetUserViews();
             UserViewsItems.Clear();
-
             foreach (var userView in userViews)
             {
-                var newItem = new Models.BaseItem(userView);
-                newItem.CreateBlurImages();
-                UserViewsItems.Add(newItem);
+                UserViewsItems.Add(userView);
+            }
+
+            // Continue Watching panel
+            var cwItems = await Core.JellyfinInstance.GetUserResumeItems();
+            ContinueWatchingItems.Clear();
+            foreach (var cwItem in cwItems)
+            {
+                
+                ContinueWatchingItems.Add(cwItem);
             }
 
             // TODO: Rework to show Latest views instead.
@@ -58,9 +65,7 @@ namespace JellyBox
 
             foreach (var item in latestMedia)
             {
-                var newItem = new Models.BaseItem(item);
-                newItem.CreateBlurImages();
-                LatestShowsItems.Add(newItem);
+                LatestShowsItems.Add(item);
             }
 
             PopulateImages();
@@ -70,8 +75,14 @@ namespace JellyBox
         {
             foreach (var userView in UserViewsItems)
             {
-                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary);
+                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary, 450, 255);
                 userView.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
+            }
+
+            foreach (var cwItem in ContinueWatchingItems)
+            {
+                var uri = Core.JellyfinInstance.GetImageUri(cwItem.Id, ImageType.Primary, 450, 255);
+                cwItem.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
             }
 
             foreach (var item in LatestShowsItems)

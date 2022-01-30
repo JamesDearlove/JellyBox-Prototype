@@ -64,6 +64,8 @@ namespace JellyBox.Models
             {
                 ImageBlurHashes.Backdrop = sdkBaseItem.ImageBlurHashes.Backdrop.Values.FirstOrDefault();
             }
+
+            CreateBlurImages();
         }
 
         // TODO: Update this to work across all hashes.

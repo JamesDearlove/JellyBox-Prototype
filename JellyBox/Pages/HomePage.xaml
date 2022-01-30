@@ -3,15 +3,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:JellyBox"
+    xmlns:models="using:JellyBox.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loading="Page_Loading">
 
     <Page.Resources>
+
+        <local:SizePercentageConverter x:Key="PercentageConverter" />
+
         <!-- TODO: Make these accessible across the app. -->
-        <DataTemplate x:Key="LandscapeTemplate">
+        <DataTemplate x:Key="LandscapeTemplate" x:DataType="models:MediaLibrary">
             <Grid Width="350" Height="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -30,7 +33,43 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="PortraitTemplate">
+        <DataTemplate x:Key="ContinueWatchingTemplate" x:DataType="models:BaseMediaItem">
+            <Grid Width="350" Height="260">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <Grid BorderBrush="Black" Grid.Row="0">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Grid.Background>
+                    <!--<TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"  Text="{Binding Name}" Style="{ThemeResource TitleTextBlockStyle}" FontSize="48" FontWeight="Bold"/>-->
+                    <Image
+                        Source="{Binding PrimaryImage}"
+                        Stretch="UniformToFill"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                    <Grid VerticalAlignment="Bottom" Height="8" HorizontalAlignment="Stretch" Background="#9F000000">
+                        <Grid HorizontalAlignment="Stretch" Background="{ThemeResource SystemAccentColorLight1}">
+                            <Grid.RenderTransform>
+                                <ScaleTransform ScaleX="{Binding UserData.PlayedPercentage, Converter={StaticResource PercentageConverter}}"/>
+                            </Grid.RenderTransform>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <StackPanel Grid.Row="1" Margin="5,10" >
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    
+                    <TextBlock Text="{Binding PlaybackTitle}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding PlaybackSubtitle}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PortraitTemplate" x:DataType="models:BaseMediaItem">
             <Grid Width="250" Height="375">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -94,7 +133,32 @@
                     </ListView.ItemsPanel>
                 </ListView>
 
-                <!-- Split up into different categories -->
+                <!-- TODO: Turn these into a control -->
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Continue Watching</TextBlock>
+                <ListView x:Name="ContinueWatchingGrid"
+                          SelectionMode="Single"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.IsHorizontalRailEnabled="True"
+                          IsItemClickEnabled="True"
+                          Margin="-10,0,0,0"
+                          ItemTemplate="{StaticResource ContinueWatchingTemplate}"
+                          ItemsSource="{x:Bind ContinueWatchingItems}"
+                          ItemClick="LatestShowsGrid_ItemClick">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Margin" Value="10,0,0,0" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+
+                <!-- TODO: Split up into different categories -->
                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Latest Media</TextBlock>
                 <ListView x:Name="LatestShowsGrid"
                           SelectionMode="Single"

@@ -13,6 +13,8 @@ namespace JellyBox.Models
         public string ParentalRating { get; set; }
         public float? CommunityRating { get; set; }
         public DateTimeOffset? PremiereDate { get; set; }
+        public UserItemDataDto UserData { get; set; }
+
         public virtual string DisplayYear
         {
             get
@@ -38,6 +40,7 @@ namespace JellyBox.Models
             ParentalRating = sdkBaseItem.OfficialRating;
             CommunityRating = sdkBaseItem.CommunityRating;
             PremiereDate = sdkBaseItem.PremiereDate;
+            UserData = sdkBaseItem.UserData;
         }
     }
 }

@@ -41,12 +41,7 @@ namespace JellyBox.Pages
             var items = await Core.JellyfinInstance.GetItems(LibraryItem.Id);
             foreach (var item in items)
             {
-                var newItem = new Models.BaseItem(item);
-                LibraryItems.Add(newItem);
-            }
-            foreach (var item in LibraryItems)
-            {
-                item.CreateBlurImages();
+                LibraryItems.Add(item);
             }
             foreach (var item in LibraryItems)
             {

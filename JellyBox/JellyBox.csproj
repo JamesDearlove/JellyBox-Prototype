@@ -119,12 +119,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Converters.cs" />
     <Compile Include="Classes\Helpers.cs" />
     <Compile Include="Controls\CustomMediaTransportControls.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Models\BaseItem.cs" />
     <Compile Include="Models\BaseMediaItem.cs" />
     <Compile Include="Models\Images.cs" />
+    <Compile Include="Models\MediaLibrary.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\PersonItem.cs" />
     <Compile Include="Models\TvShowEpisode.cs" />

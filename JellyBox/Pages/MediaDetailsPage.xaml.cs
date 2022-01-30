@@ -51,9 +51,8 @@ namespace JellyBox.Pages
 
         private async void LoadPage()
         {
-            MediaInfo = await Core.JellyfinInstance.GetUserLibraryDisplayMediaItem(MediaId);
+            MediaInfo = await Core.JellyfinInstance.GetItem(MediaId);
             RaisePropertyChanged("MediaInfo");
-            MediaInfo.CreateBlurImages();
 
             if (MediaInfo is TvShowSeries)
             {
@@ -62,12 +61,9 @@ namespace JellyBox.Pages
                 var seasonsQuery = await Core.JellyfinInstance.GetSeriesSeasons(MediaId);
 
                 Seasons.Clear();
-                foreach (var season in seasonsQuery.Items)
+                foreach (var season in seasonsQuery)
                 {
-                    // TODO: Redo, move to JellyfinInstance
-                    var betterSeason = new TvShowSeason(season);
-                    betterSeason.CreateBlurImages();
-                    Seasons.Add(betterSeason);
+                    Seasons.Add(season);
                 }
             }
 
@@ -81,13 +77,12 @@ namespace JellyBox.Pages
                 var episodesQuery = await Core.JellyfinInstance.GetSeriesEpisodes(seriesId, MediaId);
 
                 Episodes.Clear();
-                foreach (var episode in episodesQuery.Items)
+
+                // TODO: Would like to move these full eps to API instance.
+                foreach (var episode in episodesQuery)
                 {
-                    var fullEpisode = await Core.JellyfinInstance.GetItem(episode.Id);
-                    // TODO: Replace because terrible.
-                    var betterEpisode = new TvShowEpisode(fullEpisode);
-                    betterEpisode.CreateBlurImages();
-                    Episodes.Add(betterEpisode);
+                    var fullEpisode = await Core.JellyfinInstance.GetItem(episode.Id) as TvShowEpisode;
+                    Episodes.Add(fullEpisode);
                 }
             }
 

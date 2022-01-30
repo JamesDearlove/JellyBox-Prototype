@@ -20,9 +20,8 @@ namespace JellyBox
         private IUserViewsClient userViewsClient;
         private IUserLibraryClient userLibraryClient;
         private IImageClient imageClient;
-        private IVideosClient videosClient;
         private ITvShowsClient tvShowsClient;
-        private IItemsClient itemsClient; 
+        private IItemsClient itemsClient;
 
         private HttpClient httpClient = new HttpClient();
 
@@ -59,7 +58,6 @@ namespace JellyBox
             userViewsClient = new UserViewsClient(sdkClientSettings, httpClient);
             userLibraryClient = new UserLibraryClient(sdkClientSettings, httpClient);
             imageClient = new ImageClient(sdkClientSettings, httpClient);
-            videosClient = new VideosClient(sdkClientSettings, httpClient);
             tvShowsClient = new TvShowsClient(sdkClientSettings, httpClient);
             itemsClient = new ItemsClient(sdkClientSettings, httpClient);
         }
@@ -96,7 +94,9 @@ namespace JellyBox
 
         public async Task<AuthenticationResult> AuthenticateUser(string username, string password)
         {
-            var authResult = await userClient.AuthenticateUserByNameAsync(new AuthenticateUserByName { Username = username, Pw = password });
+            var authResult = await userClient.AuthenticateUserByNameAsync(
+                new AuthenticateUserByName { Username = username, Pw = password }
+            );
 
             sdkClientSettings.AccessToken = authResult.AccessToken;
 
@@ -115,19 +115,22 @@ namespace JellyBox
         /// Gets user views for the logged in user. Fails if the user is not logged in
         /// </summary>
         /// <returns></returns>
-        public async Task<IReadOnlyList<BaseItemDto>> GetUserViews()
+        public async Task<IList<MediaLibrary>> GetUserViews()
         {
-            return (await userViewsClient.GetUserViewsAsync(LoggedInUser.Id)).Items;
+            var apiResult = await userViewsClient.GetUserViewsAsync(LoggedInUser.Id);
+            return apiResult.Items.Select(x => new MediaLibrary(x)).ToList();
         }
 
-        public async Task<IReadOnlyList<BaseItemDto>> GetItems(Guid id)
-        { 
-            return (await itemsClient.GetItemsAsync(LoggedInUser.Id, parentId:id)).Items;
+        public async Task<IList<BaseMediaItem>> GetItems(Guid id)
+        {
+            var apiResult = await itemsClient.GetItemsAsync(LoggedInUser.Id, parentId: id);
+            return apiResult.Items.Select(x => ConvertBaseItemDto(x)).ToList();
         }
 
-        public async Task<IReadOnlyList<BaseItemDto>> GetLatestMedia()
+        public async Task<IList<BaseMediaItem>> GetLatestMedia()
         {
-            return (await userLibraryClient.GetLatestMediaAsync(LoggedInUser.Id));
+            var apiResult = await userLibraryClient.GetLatestMediaAsync(LoggedInUser.Id);
+            return apiResult.Select(x => ConvertBaseItemDto(x)).ToList();
         }
 
         public Task<FileResponse> GetItemImage(Guid id)
@@ -140,39 +143,45 @@ namespace JellyBox
             return imageClient.GetItemImageAsync(id, ImageType.Primary, width: width, height: height);
         }
 
-        public async Task<BaseItemDto> GetItem(Guid id)
+        public BaseMediaItem ConvertBaseItemDto(BaseItemDto itemDto)
         {
-            return await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
-            
-        }
-
-        public async Task<BaseMediaItem> GetUserLibraryDisplayMediaItem(Guid id)
-        {
-            var apiItem = await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
-
-            switch (apiItem.Type)
+            switch (itemDto.Type)
             {
                 case "Movie":
-                    return new Movie(apiItem);
+                    return new Movie(itemDto);
                 case "Series":
-                    return new TvShowSeries(apiItem);
+                    return new TvShowSeries(itemDto);
                 case "Season":
-                    return new TvShowSeason(apiItem);
+                    return new TvShowSeason(itemDto);
                 case "Episode":
-                    return new TvShowEpisode(apiItem);
+                    return new TvShowEpisode(itemDto);
                 default:
-                    return new BaseMediaItem(apiItem);
+                    return new BaseMediaItem(itemDto);
             }
         }
 
-        public Task<BaseItemDtoQueryResult> GetSeriesSeasons(Guid id)
+        public async Task<BaseMediaItem> GetItem(Guid id)
         {
-            return tvShowsClient.GetSeasonsAsync(id);
+            var apiItem = await userLibraryClient.GetItemAsync(LoggedInUser.Id, id);
+            return ConvertBaseItemDto(apiItem);
         }
 
-        public Task<BaseItemDtoQueryResult> GetSeriesEpisodes(Guid seriesId, Guid seasonId)
+        public async Task<IList<BaseMediaItem>> GetUserResumeItems()
         {
-            return tvShowsClient.GetEpisodesAsync(seriesId, seasonId: seasonId);
+            var apiResult = await itemsClient.GetResumeItemsAsync(LoggedInUser.Id);
+            return apiResult.Items.Select(x => ConvertBaseItemDto(x)).ToList();
+        }
+
+        public async Task<IList<TvShowSeason>> GetSeriesSeasons(Guid id)
+        {
+            var apiResult = await tvShowsClient.GetSeasonsAsync(id);
+            return apiResult.Items.Select(x => new TvShowSeason(x)).ToList();
+        }
+
+        public async Task<IList<TvShowEpisode>> GetSeriesEpisodes(Guid seriesId, Guid seasonId)
+        {
+            var apiResult = await tvShowsClient.GetEpisodesAsync(seriesId, seasonId: seasonId);
+            return apiResult.Items.Select(x => new TvShowEpisode(x)).ToList();
         }
 
         // Custom Rolled
