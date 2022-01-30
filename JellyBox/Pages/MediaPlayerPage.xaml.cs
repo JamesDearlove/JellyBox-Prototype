@@ -46,12 +46,24 @@ namespace JellyBox.Pages
             MediaSource = MediaSource.CreateFromUri(uri);
             MediaPlayer.Source = MediaSource;
             MediaPlayerEl.SetMediaPlayer(MediaPlayer);
+            
+            // TODO: Report to Jellyfin playback start and end.
+            // Session Playing, Progress, Stopped.
+            // Progress is sent every 10 seconds.
+
+            // TODO: Determine if user wants to start from start or not.
+            if (MediaInfo.UserData.PlaybackPositionTicks > 0)
+            {
+                MediaPlayer.PlaybackSession.Position = new TimeSpan(MediaInfo.UserData.PlaybackPositionTicks);
+            }
+
             MediaPlayer.Play();
         }
 
         private void MediaPlayer_MediaEnded(MediaPlayer sender, object args)
         {
             // Handle returning to previous screen
+            // This crashes due to threading issue. 
             //this.Frame.GoBack();
         }
 
