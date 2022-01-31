@@ -132,7 +132,7 @@ namespace JellyBox.Pages
         private void SeasonsGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
             var item = e.ClickedItem as TvShowSeason;
-
+             
             if (item != null)
             {
                 Frame.Navigate(typeof(MediaDetailsPage), item.Id);
@@ -167,9 +167,12 @@ namespace JellyBox.Pages
         {
             var item = e.ClickedItem as TvShowEpisode;
 
+            // TODO: Currently assuming resume playback.
+            var playbackItem = new PlaybackItem(item, true);
+
             if (item != null)
             {
-                Frame.Navigate(typeof(MediaPlayerPage), item);
+                Frame.Navigate(typeof(MediaPlayerPage), playbackItem);
             }
         }
     }

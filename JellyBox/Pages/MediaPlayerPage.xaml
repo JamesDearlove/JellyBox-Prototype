@@ -12,6 +12,7 @@
     <Grid>
         <MediaPlayerElement x:Name="MediaPlayerEl" AreTransportControlsEnabled="True" >
             <MediaPlayerElement.TransportControls>
+                <!-- TODO: In future, detect if Xbox or Desktop to enable volume & fullscreen -->
                 <localControls:CustomMediaTransportControls 
                     x:Name="CustomMediaControls"
                     IsFastForwardButtonVisible="True" 
@@ -22,6 +23,11 @@
                     IsSkipBackwardEnabled="True"
                     IsSkipForwardButtonVisible="True"
                     IsSkipForwardEnabled="True"
+                    IsZoomButtonVisible="False"
+                    
+                    IsVolumeButtonVisible="False"
+                    IsFullWindowButtonVisible="False"
+
                     BackRequested="MediaControls_BackRequested"/>
             </MediaPlayerElement.TransportControls>
         </MediaPlayerElement>

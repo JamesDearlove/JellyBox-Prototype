@@ -2,7 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:localControls="using:JellyBox.Controls">
+    xmlns:localControls="using:JellyBox.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
     <Style TargetType="localControls:CustomMediaTransportControls">
         <Setter Property="IsTabStop" Value="False" />
@@ -35,6 +38,7 @@
                             <Style x:Key="CommandBarStyle" TargetType="CommandBar" BasedOn="{StaticResource DefaultCommandBarStyle}">
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="DefaultLabelPosition" Value="Collapsed"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                             <!-- Style for Error Message text -->
                             <Style x:Key="MediaTextBlockStyle" TargetType="TextBlock">
@@ -224,8 +228,8 @@
                                     <Button x:Name="BackButton" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent">
                                         <SymbolIcon Symbol="Back" />
                                     </Button>
-                                    <TextBlock x:Name="TitleValue" Grid.Row="0" Grid.Column="1" Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock x:Name="SubtitleValue" Grid.Row="1" Grid.Column="1" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock x:Name="TitleValue" Grid.Row="0" Grid.Column="1" Style="{ThemeResource TitleTextBlockStyle}" d:Text="Title"/>
+                                    <TextBlock x:Name="SubtitleValue" Grid.Row="1" Grid.Column="1" Style="{ThemeResource SubtitleTextBlockStyle}" d:Text="Subtitle"/>
                                 </Grid>
                                 <!--RenderTransformOrigin="0.5,0.5"
                                     BorderBrush="{ThemeResource MediaTransportControlsBorderBrush}"
@@ -233,7 +237,6 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"-->
                                 <Grid x:Name="ControlPanelGrid"
                                   Background="{ThemeResource MediaTransportControlsPanelBackground}"
-                                  
                                   VerticalAlignment="Bottom"
                                   >
                                     <!--<Grid.RenderTransform>
@@ -284,7 +287,7 @@
                                                 <FontIcon x:Name="PlayPauseSymbolLeft" Glyph="&#xF5B0;" />
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                    </Border> 
+                                    </Border>
                                     <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="1" Grid.Row="2">
                                         <!-- TODO: Changing this CommandBar to a StackPanel crashes the app, but only when not debugging. -->
                                         <CommandBar Margin="0,3" Style="{StaticResource CommandBarStyle}">
@@ -334,7 +337,7 @@
                                                         <FontIcon Glyph="&#xED1F;" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <!--<AppBarSeparator x:Name="LeftSeparator" Height="0" Width="0" Margin="0,0" />-->
+                                                <AppBarSeparator x:Name="LeftSeparator" Height="0" Width="0" Margin="0,0" />
                                                 <AppBarButton x:Name="StopButton" Icon="Stop" Style="{StaticResource AppBarButtonStyle}" MediaTransportControlsHelper.DropoutOrder="7" Visibility="Collapsed" />
                                                 <AppBarButton x:Name="SkipBackwardButton" Style="{StaticResource AppBarButtonStyle}" MediaTransportControlsHelper.DropoutOrder="5" Visibility="Collapsed">
                                                     <AppBarButton.Icon>
@@ -376,7 +379,7 @@
                                                         <FontIcon Glyph="&#xEC57;" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <!--<AppBarSeparator x:Name="RightSeparator" Height="0" Width="0" Margin="0,0" />-->
+                                                <AppBarSeparator x:Name="RightSeparator" Height="0" Width="0" Margin="0,0" />
                                                 <AppBarToggleButton x:Name="RepeatButton" Style="{StaticResource AppBarToggleButtonStyle}" MediaTransportControlsHelper.DropoutOrder="1" Visibility="Collapsed">
                                                     <AppBarToggleButton.Icon>
                                                         <SymbolIcon x:Name="RepeatSymbol" Symbol="RepeatAll" />
@@ -387,7 +390,7 @@
                                                         <FontIcon Glyph="&#xE799;" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="CastButton" Style="{StaticResource AppBarButtonStyle}" MediaTransportControlsHelper.DropoutOrder="11">
+                                                <AppBarButton x:Name="CastButton" Style="{StaticResource AppBarButtonStyle}" MediaTransportControlsHelper.DropoutOrder="11" Visibility="Collapsed">
                                                     <AppBarButton.Icon>
                                                         <FontIcon Glyph="&#xEC15;" />
                                                     </AppBarButton.Icon>

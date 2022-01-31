@@ -118,15 +118,6 @@ namespace JellyBox
             Frame.BackStack.Clear();
         }
 
-        private void LatestShowsGrid_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var item = e.ClickedItem as Models.BaseItem;
-
-            if (item != null)
-            {
-                Frame.Navigate(typeof(MediaDetailsPage), item.Id);
-            }
-        }
 
         private void MyMediaGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -137,5 +128,28 @@ namespace JellyBox
                 Frame.Navigate(typeof(LibraryGridPage), item);
             }
         }
+
+        private void ContinueWatchingGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as Models.BaseMediaItem;
+
+            if (item != null)
+            {
+                var playbackItem = new Models.PlaybackItem(item, true);
+
+                Frame.Navigate(typeof(MediaPlayerPage), playbackItem);
+            }
+        }
+
+        private void LatestShowsGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as Models.BaseItem;
+
+            if (item != null)
+            {
+                Frame.Navigate(typeof(MediaDetailsPage), item.Id);
+            }
+        }
+
     }
 }

@@ -18,6 +18,8 @@ namespace JellyBox.Controls
         public CustomMediaTransportControls()
         {
             this.DefaultStyleKey = typeof(CustomMediaTransportControls);
+            MediaTitle = "";
+            MediaSubtitle = "";
         }
 
         protected override void OnApplyTemplate()

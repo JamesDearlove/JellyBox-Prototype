@@ -129,6 +129,7 @@
     <Compile Include="Models\MediaLibrary.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\PersonItem.cs" />
+    <Compile Include="Models\PlaybackItem.cs" />
     <Compile Include="Models\TvShowEpisode.cs" />
     <Compile Include="Models\TvShowSeason.cs" />
     <Compile Include="Models\TvShowSeries.cs" />

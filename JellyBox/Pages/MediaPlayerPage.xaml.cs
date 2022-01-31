@@ -26,7 +26,7 @@ namespace JellyBox.Pages
     /// </summary>
     public sealed partial class MediaPlayerPage : Page
     {
-        BaseMediaItem MediaInfo;
+        PlaybackItem PlaybackItem;
         MediaPlayer MediaPlayer = new MediaPlayer();
         MediaSource MediaSource;
 
@@ -38,10 +38,12 @@ namespace JellyBox.Pages
 
         private void LoadMedia()
         {
-            var uri = Core.JellyfinInstance.GetVideoHLSUri(MediaInfo.Id, MediaInfo.Id.ToString("N"));
+            var mediaInfo = PlaybackItem.MediaItem;
+
+            var uri = Core.JellyfinInstance.GetVideoHLSUri(mediaInfo.Id, mediaInfo.Id.ToString("N"));
                 
-            CustomMediaControls.MediaTitle = MediaInfo.PlaybackTitle;
-            CustomMediaControls.MediaSubtitle = MediaInfo.PlaybackSubtitle;
+            CustomMediaControls.MediaTitle = mediaInfo.PlaybackTitle;
+            CustomMediaControls.MediaSubtitle = mediaInfo.PlaybackSubtitle;
 
             MediaSource = MediaSource.CreateFromUri(uri);
             MediaPlayer.Source = MediaSource;
@@ -52,9 +54,9 @@ namespace JellyBox.Pages
             // Progress is sent every 10 seconds.
 
             // TODO: Determine if user wants to start from start or not.
-            if (MediaInfo.UserData.PlaybackPositionTicks > 0)
+            if (PlaybackItem.ResumePlayback)
             {
-                MediaPlayer.PlaybackSession.Position = new TimeSpan(MediaInfo.UserData.PlaybackPositionTicks);
+                MediaPlayer.PlaybackSession.Position = new TimeSpan(mediaInfo.UserData.PlaybackPositionTicks);
             }
 
             MediaPlayer.Play();
@@ -71,7 +73,7 @@ namespace JellyBox.Pages
         {
             base.OnNavigatedTo(e);
 
-            MediaInfo = (BaseMediaItem)e.Parameter;
+            PlaybackItem = (PlaybackItem)e.Parameter;
             LoadMedia();
         }
 
