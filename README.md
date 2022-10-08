@@ -4,4 +4,6 @@ This is my very WIP Jellyfin client written natively for Xbox, and therefore all
 
 ## Current Progress
 
-The app is a very incomplete prototype, most expected features aren't implemented and you should not try and use it just yet.
+I've ended up archiving this repo as the prototype and rewrite this app from scratch. It never progressed far while also being incredibly buggy, and had some oversights that required signficiant refactoring to resolve.
+
+You can find the current project in the [JellyBox repo](https://github.com/JamesDearlove/JellyBox)
