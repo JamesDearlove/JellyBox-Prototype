@@ -34,63 +34,8 @@ namespace JellyBox
         }
 
         // TODO: Move to their respective items.
-        ObservableCollection<Models.MediaLibrary> UserViewsItems = new ObservableCollection<Models.MediaLibrary>();
-        ObservableCollection<Models.BaseMediaItem> ContinueWatchingItems = new ObservableCollection<Models.BaseMediaItem>();
-        ObservableCollection<Models.BaseMediaItem> LatestShowsItems = new ObservableCollection<Models.BaseMediaItem>();
 
-        private async void LoadPage()
-        {
-            UsernameText.Text = Core.JellyfinInstance.LoggedInUser.Name;
 
-            // My Media panel
-            var userViews = await Core.JellyfinInstance.GetUserViews();
-            UserViewsItems.Clear();
-            foreach (var userView in userViews)
-            {
-                UserViewsItems.Add(userView);
-            }
-
-            // Continue Watching panel
-            var cwItems = await Core.JellyfinInstance.GetUserResumeItems();
-            ContinueWatchingItems.Clear();
-            foreach (var cwItem in cwItems)
-            {
-                
-                ContinueWatchingItems.Add(cwItem);
-            }
-
-            // TODO: Rework to show Latest views instead.
-            var latestMedia = await Core.JellyfinInstance.GetLatestMedia();
-            LatestShowsItems.Clear();
-
-            foreach (var item in latestMedia)
-            {
-                LatestShowsItems.Add(item);
-            }
-
-            PopulateImages();
-        }
-
-        private async void PopulateImages()
-        {
-            foreach (var userView in UserViewsItems)
-            {
-                var uri = Core.JellyfinInstance.GetImageUri(userView.Id, ImageType.Primary, 450, 255);
-                userView.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
-            }
-
-            foreach (var cwItem in ContinueWatchingItems)
-            {
-                var uri = Core.JellyfinInstance.GetImageUri(cwItem.Id, ImageType.Primary, 450, 255);
-                cwItem.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
-            }
-
-            foreach (var item in LatestShowsItems)
-            { 
-                var uri = Core.JellyfinInstance.GetImageUri(item.Id, ImageType.Primary, 300, 450);
-                item.PrimaryImage = await ImageCache.Instance.GetFromCacheAsync(uri);
-            }
-        }
 
         private void Page_Loading(FrameworkElement sender, object args)
         {
