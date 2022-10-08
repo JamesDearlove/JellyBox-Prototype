@@ -77,7 +77,8 @@ namespace JellyBox
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(LoadingPage));
+                    //rootFrame.Navigate(typeof(LoadingPage));
+                    rootFrame.Navigate(typeof(ServerLoginPage));
                 }
                 // Bind back button
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;

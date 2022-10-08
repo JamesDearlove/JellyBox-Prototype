@@ -114,7 +114,7 @@ namespace JellyBox
             Core.SettingManager.Server = null;
             Core.SettingManager.AccessToken = null;
 
-            Frame.Navigate(typeof(ServerAddressPage));
+            Frame.Navigate(typeof(ServerLoginPage));
             Frame.BackStack.Clear();
         }
 

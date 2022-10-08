@@ -11,11 +11,24 @@
     <Grid>
         <StackPanel Margin="20" HorizontalAlignment="Center" Spacing="10" Width="300">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">JellyBox</TextBlock>
+
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}">Welcome, enter your server address to begin</TextBlock>
+            <TextBox x:Name="ServerAddressBox" PlaceholderText="Server Address"></TextBox>
+            <StackPanel Orientation="Horizontal">
+
+                <Button x:Name="ConnectButton" Click="ConnectButton_Click">Connect</Button>
+                <ProgressRing Margin="10,0,0,0" x:Name="ConnectingRing"/>
+            </StackPanel>
+            <TextBlock x:Name="ErrorAddressTextblock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="Red"></TextBlock>
+
+
             <TextBlock x:Name="ServerAddressText"></TextBlock>
             <TextBox x:Name="UsernameBox" PlaceholderText="Username"></TextBox>
             <PasswordBox x:Name="PasswordBox" PlaceholderText="Password"></PasswordBox>
             <Button x:Name="LoginButton" Click="LoginButton_Click">Login</Button>
-            <TextBlock x:Name="ErrorTextblock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="Red"></TextBlock>
+            <TextBlock x:Name="ErrorLoginTextblock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="Red"></TextBlock>
+
+            <Button x:Name="SkipLoginButton" Click="SkipLoginButton_Click">Skip Login</Button>
         </StackPanel>
     </Grid>
 </Page>
